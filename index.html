@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Safety-alarm : Android application which alerts a second application user if the first user does not come back home in time." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Safety-alarm</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/twinklestip/Safety-Alarm">View on GitHub</a>
+
+          <h1 id="project_title">Safety-alarm</h1>
+          <h2 id="project_tagline">Android application which alerts a second application user if the first user does not come back home in time.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/twinklestip/Safety-Alarm/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/twinklestip/Safety-Alarm/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>Goal</h3>
+
+<p>Use mobile phone technology to reduce parental anxiety</p>
+
+<h3>Idea</h3>
+
+<p>To create an Android application which to users can install on their phones and use to verify that one of them or both safely make it to some pre-decided destination.</p>
+
+<p>The two users agree beforehand to where the subject user should arrive, and when. The arrival is detected by the user's contact with a WiFi network SSID at the destination. The other user is then notified of this arrival via some communication technology, for example synchronization to a server or via SMS.</p>
+
+<p>The receival of such a notification causes the receivers application to NOT give any alert. Failure to receive the notification within the time-limit does cause an alert.</p>
+
+<h3>Overview of Intended Incremental Progress</h3>
+
+<ol>
+<li>Two users can agree to one of the users waiting for the arrival of the other.</li>
+<li>Multiple users can set up checks on each other.</li>
+<li>Location tracking, either via GPS or identification of cellular base stations.</li>
+</ol><h3>Challenges</h3>
+
+<p>The main challenge is that it's most critical function (checking in at the safe destination) will often be done at the end of the day, when the phone battery energy level is likely to be very low. Care must be taken to make the application consume as little energy as possible, so that the application does not prevent it self from working by depleting the battery before the user comes home.</p>
+
+<h3>Authors</h3>
+
+<p>Audun Knudsroed (<a href="https://github.com/twinklestip" class="user-mention">@twinklestip</a>) and Sverre Kvamme.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Safety-alarm maintained by <a href="https://github.com/twinklestip">twinklestip</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
