@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Safety-Alarm</string>
-    <string name="git is cool">Hello world!</string>
+    <string name="hello_world">git is cool!</string>
     <string name="menu_settings">Settings</string>
 
 </resources>
