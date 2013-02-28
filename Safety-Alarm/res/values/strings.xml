@@ -8,5 +8,8 @@
     <string name="change_state">Change State</string>
     <string name="confirm">Confirm</string>
     <string name="title_activity_new_appointment">NewAppointmentActivity</string>
-
+	<string name="SSID_hint">Wifi Name/SSID</string>
+	<string name="phone_input_hint">Phone number</string>
+	<string name="setDate">Select date</string>
+	<string name="setTime">Select time</string>
 </resources>
