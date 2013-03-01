@@ -25,4 +25,5 @@ public class MainActivity extends Activity {
 		 Intent intent = new Intent(this, NewAppointmentActivity.class);
 		 startActivity(intent);
 	}
+	
 }
