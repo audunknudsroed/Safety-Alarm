@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="@string/change_state" />
+        android:text="@string/change_state"
+        android:onClick="changeState" />
 
     <Button
         android:id="@+id/confirm"
@@ -18,7 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="@string/confirm" />
+        android:text="@string/confirm"
+        android:onClick="confirmAppointment" />
 
     <EditText
         android:id="@+id/recipient"

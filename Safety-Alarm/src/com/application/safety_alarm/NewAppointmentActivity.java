@@ -1,15 +1,18 @@
 package com.application.safety_alarm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
-import android.widget.DatePicker;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+//import android.widget.DatePicker;
 
 public class NewAppointmentActivity extends FragmentActivity{
-	public Appointment newApp;
+	private Appointment newApp;
 
 	private TextView dateView;
 	private TextView timeView;
@@ -18,6 +21,8 @@ public class NewAppointmentActivity extends FragmentActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_appointment);
 		newApp = new Appointment();
+		Button changeStateButton = (Button)findViewById(R.id.change_state);
+		changeStateButton.setText("Guardian");
 		dateView = (TextView) findViewById(R.id.dateView);
 		timeView = (TextView) findViewById(R.id.timeView);
 		timeView.setText(newApp.getTime());
@@ -36,9 +41,33 @@ public class NewAppointmentActivity extends FragmentActivity{
 	public void setDate(View v) {
 	    DialogFragment newFragment = new DatePickerFragment();
 	    newFragment.show(getSupportFragmentManager(), "datePicker");
-	    //DatePicker datePicker = (DatePicker) findViewById(R.id.set_date);
-	    //newApp.setDate(datePicker.getDayOfMonth()+"."+"."+datePicker.getMonth()+"."+datePicker.getYear());
-	    //dateView.setText(newApp.getDate());
-	    
+	}
+	public void confirmAppointment(View v){
+		newApp.setSSID(String.valueOf(((EditText) findViewById(R.id.home_SSID)).getText()));
+		newApp.setRecipient(String.valueOf(((EditText) findViewById(R.id.recipient)).getText()));
+		//start intent, add appointment object
+		//return to main activity
+		Intent intent = new Intent(this, MainActivity.class);
+		Bundle b = new Bundle();
+		b.putSerializable("Appointment", this.getNewApp());
+		intent.putExtras(b);
+		 startActivity(intent);
+	}
+	public void changeState(View v){
+		Button changeStateButton = (Button)findViewById(R.id.change_state);
+		if(newApp.getIsGuardian()){
+			changeStateButton.setText("Dependent");
+			newApp.setIsGuardian(false);
+		}else{
+			changeStateButton.setText("Guardian");
+			newApp.setIsGuardian(true);
+		}
+				
+	}
+	public Appointment getNewApp() {
+		return newApp;
+	}
+	public void setNewApp(Appointment newApp) {
+		this.newApp = newApp;
 	}
 }

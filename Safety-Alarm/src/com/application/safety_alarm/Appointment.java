@@ -1,16 +1,21 @@
 package com.application.safety_alarm;
 
-public class Appointment {
+import java.io.Serializable;
+
+public class Appointment implements Serializable{
 	public Appointment(){
 		date="No date chosen";
 		time="No time chosen";
 		SSID="No SSID chosen";
 		recipient="No recipient chosen";
+		isGuardian=true;
 	}
+	private static final long serialVersionUID = 0L;
 	private String date;
 	private String time;
 	private String SSID;
 	private String recipient;
+	private Boolean isGuardian; 
 	public String getDate() {
 		return date;
 	}
@@ -34,6 +39,12 @@ public class Appointment {
 	}
 	public void setRecipient(String recipient) {
 		this.recipient = recipient;
+	}
+	public Boolean getIsGuardian() {
+		return isGuardian;
+	}
+	public void setIsGuardian(Boolean isGuardian) {
+		this.isGuardian = isGuardian;
 	}
 	
 	
