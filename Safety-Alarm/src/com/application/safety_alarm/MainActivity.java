@@ -3,16 +3,19 @@ package com.application.safety_alarm;
 //import java.util.List;
 
 
+import java.util.List;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 //import android.widget.ArrayAdapter;
 
 public class MainActivity extends ListActivity {
 	
-	//private AppointmentsDataSource datasource;
+	private AppointmentsDataSource datasource;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -27,13 +30,13 @@ public class MainActivity extends ListActivity {
 //		    Toast toast = Toast.makeText(context, text, duration);
 //		    toast.show();
 //		}
-		//datasource = new AppointmentsDataSource(this);
-		//datasource.open();
-		//List<Appointment> values = datasource.getAllAppointments();
-		//ArrayAdapter<Appointment> adapter = new ArrayAdapter<Appointment>(this,
-		//		android.R.layout.simple_list_item_1, values);
-		//setListAdapter(adapter);
-
+		datasource = new AppointmentsDataSource(this);
+		datasource.open();
+		List<Appointment> values = datasource.getAllAppointments();
+		ArrayAdapter<Appointment> adapter = new ArrayAdapter<Appointment>(this,
+				android.R.layout.simple_list_item_1, values);
+		setListAdapter(adapter);
+		
 		//populate list
 	}
 

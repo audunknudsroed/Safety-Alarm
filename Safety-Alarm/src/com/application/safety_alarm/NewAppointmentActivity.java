@@ -44,12 +44,15 @@ public class NewAppointmentActivity extends FragmentActivity{
 	public void confirmAppointment(View v){
 		newApp.setSSID(String.valueOf(((EditText) findViewById(R.id.home_SSID)).getText()));
 		newApp.setRecipient(String.valueOf(((EditText) findViewById(R.id.recipient)).getText()));
-		//start intent, add appointment object
-		//return to main activity
-		Intent intent = new Intent(this, MainActivity.class);
-		Bundle b = new Bundle();
-		b.putSerializable("Appointment", this.getNewApp());
-		intent.putExtras(b);
+		/*Open SQL management
+		 * 
+		 * Add object to database
+		 * Fix database to contain all datas
+		 * Appointment needs tostring function
+		 * 
+		 */
+		
+		Intent intent = new Intent(this, MainActivity.class);		
 		 startActivity(intent);
 	}
 	public void changeState(View v){
