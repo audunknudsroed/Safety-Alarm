@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-//import android.widget.DatePicker;
 
 public class NewAppointmentActivity extends FragmentActivity{
 	private Appointment newApp;
@@ -62,7 +61,6 @@ public class NewAppointmentActivity extends FragmentActivity{
 			changeStateButton.setText("Guardian");
 			newApp.setIsGuardian(true);
 		}
-				
 	}
 	public Appointment getNewApp() {
 		return newApp;

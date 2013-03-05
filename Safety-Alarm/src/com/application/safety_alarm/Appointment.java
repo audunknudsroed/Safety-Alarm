@@ -9,8 +9,11 @@ public class Appointment implements Serializable{
 		SSID="No SSID chosen";
 		recipient="No recipient chosen";
 		isGuardian=true;
+		id=0;
+		
 	}
 	private static final long serialVersionUID = 0L;
+	private long id;
 	private String date;
 	private String time;
 	private String SSID;
@@ -45,6 +48,12 @@ public class Appointment implements Serializable{
 	}
 	public void setIsGuardian(Boolean isGuardian) {
 		this.isGuardian = isGuardian;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 	
