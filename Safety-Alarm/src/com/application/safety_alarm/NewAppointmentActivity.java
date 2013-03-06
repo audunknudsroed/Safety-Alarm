@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class NewAppointmentActivity extends FragmentActivity{
-	private Appointment newApp;
 
+	private Appointment newApp;
 	private TextView dateView;
 	private TextView timeView;
 	@Override

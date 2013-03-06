@@ -15,8 +15,12 @@ public class AppointmentsDataSource {
   private SQLiteDatabase database;
   private AppointmentSQLHelper dbHelper;
   private String[] allColumns = { AppointmentSQLHelper.COLUMN_ID,
-		  AppointmentSQLHelper.COLUMN_APPOINTMENT };
-
+		  AppointmentSQLHelper.COLUMN_DATE,
+		  AppointmentSQLHelper.COLUMN_TIME,
+		  AppointmentSQLHelper.COLUMN_SSID,
+		  AppointmentSQLHelper.COLUMN_RECIPIENT,
+		  AppointmentSQLHelper.COLUMN_ISGUARDIAN};
+  
   public AppointmentsDataSource(Context context) {
     dbHelper = new AppointmentSQLHelper(context);
   }
@@ -29,9 +33,13 @@ public class AppointmentsDataSource {
     dbHelper.close();
   }
 
-  public Appointment createAppointment(String appointment) {
+  public Appointment createAppointment(Appointment app) {
     ContentValues values = new ContentValues();
-    values.put(AppointmentSQLHelper.COLUMN_APPOINTMENT, appointment);
+    values.put(AppointmentSQLHelper.COLUMN_DATE, app.getDate());
+    values.put(AppointmentSQLHelper.COLUMN_TIME, app.getTime());
+    values.put(AppointmentSQLHelper.COLUMN_SSID, app.getSSID());
+    values.put(AppointmentSQLHelper.COLUMN_RECIPIENT, app.getRecipient());
+    values.put(AppointmentSQLHelper.COLUMN_ISGUARDIAN, app.getIsGuardian());
     long insertId = database.insert(AppointmentSQLHelper.TABLE_APPOINTMENTS, null,
         values);
     Cursor cursor = database.query(AppointmentSQLHelper.TABLE_APPOINTMENTS,
@@ -41,7 +49,7 @@ public class AppointmentsDataSource {
     Appointment newAppointment = cursorToAppointment(cursor);
     cursor.close();
     return newAppointment;
-  }
+	}
 
   public void deleteAppointment(Appointment appointment) {
     long id = appointment.getId();
@@ -58,9 +66,9 @@ public class AppointmentsDataSource {
 
     cursor.moveToFirst();
     while (!cursor.isAfterLast()) {
-      Appointment appointment = cursorToAppointment(cursor);
-      appointments.add(appointment);
-      cursor.moveToNext();
+    	Appointment appointment = cursorToAppointment(cursor);
+    	appointments.add(appointment);
+    	cursor.moveToNext();
     }
     // Make sure to close the cursor
     cursor.close();
@@ -70,7 +78,15 @@ public class AppointmentsDataSource {
   private Appointment cursorToAppointment(Cursor cursor) {
     Appointment appointment = new Appointment();
     appointment.setId(cursor.getLong(0));
-    appointment.setSSID(cursor.getString(1));
+    appointment.setDate(cursor.getString(1));
+    appointment.setTime(cursor.getString(2));
+    appointment.setSSID(cursor.getString(3));
+    appointment.setRecipient(cursor.getString(4));
+    if(cursor.getLong(5)==0){
+    	appointment.setIsGuardian(false);
+    }else{
+    	appointment.setIsGuardian(true);
+    }
     return appointment;
   }
 } 

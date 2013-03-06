@@ -19,6 +19,9 @@ public class Appointment implements Serializable{
 	private String SSID;
 	private String recipient;
 	private Boolean isGuardian; 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	public String getDate() {
 		return date;
 	}
@@ -55,7 +58,13 @@ public class Appointment implements Serializable{
 	public void setId(long id) {
 		this.id = id;
 	}
-	
-	
-	
+	public String toString(){
+		String temp;
+		if(this.getIsGuardian()){
+			temp=this.getRecipient() +" should be at "+this.getSSID() +" before "+this.getDate()+", "+this.getTime(); 
+		}else{
+			temp="You are expected at "+this.getSSID() +" before "+this.getDate()+", "+this.getTime();
+		}
+		return temp;
+	}
 }
