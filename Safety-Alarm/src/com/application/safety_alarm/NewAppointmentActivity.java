@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class NewAppointmentActivity extends FragmentActivity{
-
+	private AppointmentsDataSource datasource;
 	private Appointment newApp;
 	private TextView dateView;
 	private TextView timeView;
@@ -51,7 +51,9 @@ public class NewAppointmentActivity extends FragmentActivity{
 		 * Appointment needs tostring function
 		 * 
 		 */
-		
+		 datasource = new AppointmentsDataSource(this);
+		 datasource.open();
+		datasource.createAppointment(newApp);
 		Intent intent = new Intent(this, MainActivity.class);		
 		 startActivity(intent);
 	}
