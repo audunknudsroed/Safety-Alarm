@@ -44,13 +44,6 @@ public class NewAppointmentActivity extends FragmentActivity{
 	public void confirmAppointment(View v){
 		newApp.setSSID(String.valueOf(((EditText) findViewById(R.id.home_SSID)).getText()));
 		newApp.setRecipient(String.valueOf(((EditText) findViewById(R.id.recipient)).getText()));
-		/*Open SQL management
-		 * 
-		 * Add object to database
-		 * Fix database to contain all datas
-		 * Appointment needs tostring function
-		 * 
-		 */
 		 datasource = new AppointmentsDataSource(this);
 		 datasource.open();
 		datasource.createAppointment(newApp);
