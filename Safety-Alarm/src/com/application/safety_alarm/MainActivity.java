@@ -14,7 +14,7 @@ import android.widget.ArrayAdapter;
 //import android.widget.ArrayAdapter;
 
 public class MainActivity extends ListActivity {
-	
+	//halla
 	private AppointmentsDataSource datasource;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
