@@ -26,6 +26,13 @@
             android:name="com.application.safety_alarm.NewAppointmentActivity"
             android:label="@string/title_activity_new_appointment" >
         </activity>
+        <receiver android:name=".SMSReceiver"> 
+        	<intent-filter>
+        		<action android:name="android.intent.action.DATA_SMS_RECEIVED" /> 
+            		<data android:scheme="sms" /> 
+            		<data android:port="5404" /> 
+        	</intent-filter> 
+	</receiver> 
     </application>
 
 </manifest>

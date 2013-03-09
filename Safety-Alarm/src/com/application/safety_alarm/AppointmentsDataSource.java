@@ -74,7 +74,25 @@ public class AppointmentsDataSource {
     cursor.close();
     return appointments;
   }
+  public List<Appointment> getMatchingAppointments(String recipient) {
+	    List<Appointment> appointments = new ArrayList<Appointment>();
+	    //query for recipient column
+	    Cursor cursor = database.query(AppointmentSQLHelper.TABLE_APPOINTMENTS,
+	        allColumns, null, null, null, null, null);
 
+	    cursor.moveToFirst();
+	    while (!cursor.isAfterLast()) {
+		    	Appointment appointment = cursorToAppointment(cursor);
+		    	appointments.add(appointment);
+		    	cursor.moveToNext();
+	    }
+	    // Make sure to close the cursor
+	    cursor.close();
+	    return appointments;	  
+  }
+  public boolean hasRecipient(String recipient){
+	  return true;
+  }
   private Appointment cursorToAppointment(Cursor cursor) {
     Appointment appointment = new Appointment();
     appointment.setId(cursor.getLong(0));
