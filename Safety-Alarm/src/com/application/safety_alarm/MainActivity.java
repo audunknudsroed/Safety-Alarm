@@ -8,28 +8,18 @@ import java.util.List;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 //import android.widget.ArrayAdapter;
 
 public class MainActivity extends ListActivity {
-	//halla
 	private AppointmentsDataSource datasource;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-//		Bundle b = this.getIntent().getExtras();
-//		if(b!=null){
-//		    Appointment newApp = b.getParcelable("Appointment");
-//		    Context context = getApplicationContext();
-//		    CharSequence text = "Date: "+newApp.getDate()+"\nTime: "+newApp.getTime()+"\nSSID: "+newApp.getSSID()+"\nRecipient: "+newApp.getRecipient();
-//		    int duration = Toast.LENGTH_LONG;
-//
-//		    Toast toast = Toast.makeText(context, text, duration);
-//		    toast.show();
-//		}
 		datasource = new AppointmentsDataSource(this);
 		datasource.open();
 		List<Appointment> values = datasource.getAllAppointments();

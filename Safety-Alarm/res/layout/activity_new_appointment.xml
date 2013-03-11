@@ -1,15 +1,13 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
     tools:context=".NewAppointmentActivity" >
 
     <Button
         android:id="@+id/change_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
         android:text="@string/change_state"
         android:onClick="changeState" />
 
@@ -17,8 +15,6 @@
         android:id="@+id/confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:text="@string/confirm"
         android:onClick="confirmAppointment" />
 
@@ -26,61 +22,61 @@
         android:id="@+id/recipient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/confirm"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="24dp"
-        android:ems="10"
         android:hint="@string/phone_input_hint"
-        android:inputType="phone" >
-
-        
-    </EditText>
+        android:inputType="phone" />
 
     <EditText
         android:id="@+id/home_SSID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/recipient"
-        android:layout_alignParentRight="true"
-        android:ems="10"
         android:hint="@string/SSID_hint" />
 
     <Button
         android:id="@+id/set_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/set_time"
-        android:layout_below="@+id/set_time"
-        android:layout_marginTop="28dp"
         android:text="@string/setDate"
-        android:onClick="setDate" />
+        android:onClick="setDate" /> 
+     							
 
     <TextView
         android:id="@+id/dateView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/set_date"
-        android:layout_alignBottom="@+id/set_date"
-        android:layout_alignLeft="@+id/confirm"
     />
-
-    <TextView
-        android:id="@+id/timeView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/set_time"
-        android:layout_alignBottom="@+id/set_time"
-        android:layout_alignLeft="@+id/dateView"
-         />
 
     <Button
         android:id="@+id/set_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/change_state"
-        android:layout_below="@+id/change_state"
-        android:layout_marginTop="43dp"
         android:text="@string/setTime"
         android:onClick="setTime" />
+    
+    <TextView
+        android:id="@+id/timeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+    />
 
-</RelativeLayout>
+
+
+    <Button
+        android:id="@+id/set_wifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set wifi"
+        android:onClick="setWifi" />
+    <TextView
+        android:id="@+id/wifiView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+    />
+    
+    <Button
+        android:id="@+id/set_time2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set time2"
+        android:onClick="openTimePickerDialog" />
+
+</LinearLayout>
