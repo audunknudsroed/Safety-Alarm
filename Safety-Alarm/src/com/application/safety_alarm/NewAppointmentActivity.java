@@ -53,7 +53,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 		datasource.updateAppointment(newApp.getId(), newApp);
 		Intent intent = new Intent(this, MainActivity.class);		
 		 startActivity(intent);
-		 SMSDataTransceiver smsTx = new SMSDataTransceiver();
+		 //SMSDataTransceiver smsTx = new SMSDataTransceiver();
 		 //smsTx.sendMsg(newApp.getRecipient());
 	}
 	public void changeState(View v){
@@ -71,9 +71,5 @@ public class NewAppointmentActivity extends FragmentActivity{
 	}
 	public void setNewApp(Appointment newApp) {
 		this.newApp = newApp;
-	}
-	public void onDestroy(){
-		super.onDestroy();
-		datasource.deleteAppointmentById(id);
 	}
 }

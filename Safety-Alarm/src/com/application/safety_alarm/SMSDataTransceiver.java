@@ -1,6 +1,7 @@
 package com.application.safety_alarm;
 
 import android.telephony.SmsManager;
+import android.util.Log;
 
 public class SMSDataTransceiver {
 	/*using this class:
@@ -19,6 +20,10 @@ public class SMSDataTransceiver {
 		SMS_PORT= 5404; //you can use a different port if you'd like. I believe it just has to be an int value.
 	}
 	public void sendMsg(String receiver){
-		smsManager.sendDataMessage(receiver, null, SMS_PORT, messageText.getBytes(), null, null);
+		try{
+			smsManager.sendDataMessage(receiver, null, SMS_PORT, messageText.getBytes(), null, null);
+		}catch (Exception e){
+			Log.e("SMS_FAILURE", e.getMessage(), e);
+		}
 	}
 }

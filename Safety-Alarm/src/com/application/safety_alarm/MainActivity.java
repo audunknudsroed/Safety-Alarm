@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 public class MainActivity extends ListActivity {
 	
@@ -40,8 +41,10 @@ public class MainActivity extends ListActivity {
 		
 	}
 	public void onClick_send_sms(View v){
-		SMSDataTransceiver smsTx=new SMSDataTransceiver();
-		//smsTx.sendMsg("5556");
+
+        Toast.makeText(getApplicationContext(), "Sent message", Toast.LENGTH_SHORT).show();
+		SMSTransceiver smsTx=new SMSTransceiver(getApplicationContext());
+		smsTx.sendSMS("5556", "XYZPDDAFP");
 	}
 	private void displayAppointments(){
 		values = datasource.getAllAppointments();
