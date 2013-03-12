@@ -8,7 +8,7 @@
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/button_delete_all_app"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/button_new_appointment" >
@@ -24,5 +24,23 @@
         android:layout_alignParentTop="true"
         android:onClick="onClick_new_appointment"
         android:text="@string/new_appointment" />
+
+    <Button
+        android:id="@+id/button_delete_all_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="Delete All"
+        android:onClick="onClick_delete_all" />
+
+    <Button
+        android:id="@+id/sms_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Send SMS"
+        android:onClick="onClick_send_sms" />
 
 </RelativeLayout>

@@ -11,16 +11,15 @@ import android.widget.ArrayAdapter;
 public class MainActivity extends ListActivity {
 	
 	private AppointmentsDataSource datasource;
+	private List<Appointment> values;
+	private ArrayAdapter<Appointment> adapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		datasource = new AppointmentsDataSource(this);
 		datasource.open();
-		List<Appointment> values = datasource.getAllAppointments();
-		ArrayAdapter<Appointment> adapter = new ArrayAdapter<Appointment>(this,
-				android.R.layout.simple_list_item_1, values);
-		setListAdapter(adapter);
+		displayAppointments();
 	}
 
 	@Override
@@ -33,5 +32,21 @@ public class MainActivity extends ListActivity {
 		 Intent intent = new Intent(this, NewAppointmentActivity.class);
 		 startActivity(intent);
 	}
-	
+	public void onClick_delete_all(View v){
+		datasource = new AppointmentsDataSource(this);
+		datasource.open();
+		datasource.deleteAllAppointments();
+		displayAppointments();
+		
+	}
+	public void onClick_send_sms(View v){
+		SMSDataTransceiver smsTx=new SMSDataTransceiver();
+		//smsTx.sendMsg("5556");
+	}
+	private void displayAppointments(){
+		values = datasource.getAllAppointments();
+		adapter =new ArrayAdapter<Appointment>(this,
+				android.R.layout.simple_list_item_1, values);
+		setListAdapter(adapter);
+	}
 }

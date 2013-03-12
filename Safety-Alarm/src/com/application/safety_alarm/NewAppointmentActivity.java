@@ -15,11 +15,17 @@ public class NewAppointmentActivity extends FragmentActivity{
 	private Appointment newApp;
 	private TextView dateView;
 	private TextView timeView;
+	private long id;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_appointment);
 		newApp = new Appointment();
+		datasource = new AppointmentsDataSource(this);
+		 datasource.open();
+		datasource.createAppointment(newApp);
+		id=newApp.getId();
+		
 		Button changeStateButton = (Button)findViewById(R.id.change_state);
 		changeStateButton.setText("Guardian");
 		dateView = (TextView) findViewById(R.id.dateView);
@@ -44,11 +50,11 @@ public class NewAppointmentActivity extends FragmentActivity{
 	public void confirmAppointment(View v){
 		newApp.setSSID(String.valueOf(((EditText) findViewById(R.id.home_SSID)).getText()));
 		newApp.setRecipient(String.valueOf(((EditText) findViewById(R.id.recipient)).getText()));
-		 datasource = new AppointmentsDataSource(this);
-		 datasource.open();
-		datasource.createAppointment(newApp);
+		datasource.updateAppointment(newApp.getId(), newApp);
 		Intent intent = new Intent(this, MainActivity.class);		
 		 startActivity(intent);
+		 SMSDataTransceiver smsTx = new SMSDataTransceiver();
+		 //smsTx.sendMsg(newApp.getRecipient());
 	}
 	public void changeState(View v){
 		Button changeStateButton = (Button)findViewById(R.id.change_state);
@@ -65,5 +71,9 @@ public class NewAppointmentActivity extends FragmentActivity{
 	}
 	public void setNewApp(Appointment newApp) {
 		this.newApp = newApp;
+	}
+	public void onDestroy(){
+		super.onDestroy();
+		datasource.deleteAppointmentById(id);
 	}
 }
