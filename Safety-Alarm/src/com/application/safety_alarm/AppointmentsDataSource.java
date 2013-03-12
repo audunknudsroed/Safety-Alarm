@@ -48,16 +48,49 @@ public class AppointmentsDataSource {
     cursor.moveToFirst();
     Appointment newAppointment = cursorToAppointment(cursor);
     cursor.close();
+    app.setId(newAppointment.getId());
     return newAppointment;
 	}
 
+  public Appointment updateAppointment(long id, Appointment app){
+	  ContentValues values = new ContentValues();
+	    values.put(AppointmentSQLHelper.COLUMN_DATE, app.getDate());
+	    values.put(AppointmentSQLHelper.COLUMN_TIME, app.getTime());
+	    values.put(AppointmentSQLHelper.COLUMN_SSID, app.getSSID());
+	    values.put(AppointmentSQLHelper.COLUMN_RECIPIENT, app.getRecipient());
+	    values.put(AppointmentSQLHelper.COLUMN_ISGUARDIAN, app.getIsGuardian());
+	    database.update(AppointmentSQLHelper.TABLE_APPOINTMENTS, values, AppointmentSQLHelper.COLUMN_ID + " = " + id, null);
+//	    Cursor cursor = database.query(AppointmentSQLHelper.TABLE_APPOINTMENTS,
+//	        allColumns, AppointmentSQLHelper.COLUMN_ID + " = " + id, null,
+//	        null, null, null);
+//	    cursor.moveToFirst();
+//	    Appointment newAppointment = cursorToAppointment(cursor);
+//	    cursor.close();
+//	    return newAppointment;
+	    return app;
+  }
   public void deleteAppointment(Appointment appointment) {
     long id = appointment.getId();
     System.out.println("Appointment deleted with id: " + id);
     database.delete(AppointmentSQLHelper.TABLE_APPOINTMENTS, AppointmentSQLHelper.COLUMN_ID
         + " = " + id, null);
   }
-
+  public void deleteAppointmentById(long id){
+	  database.delete(AppointmentSQLHelper.TABLE_APPOINTMENTS, AppointmentSQLHelper.COLUMN_ID
+		        + " = " + id, null);
+  }
+  public void deleteAllAppointments(){
+	  Cursor cursor = database.query(AppointmentSQLHelper.TABLE_APPOINTMENTS,
+		        allColumns, null, null, null, null, null);
+	  cursor.moveToFirst();
+	    while (!cursor.isAfterLast()) {
+		    	Appointment appointment = cursorToAppointment(cursor);
+		    	deleteAppointment(appointment);
+		    	cursor.moveToNext();
+	    }
+	    // Make sure to close the cursor
+	    cursor.close();
+  }
   public List<Appointment> getAllAppointments() {
     List<Appointment> appointments = new ArrayList<Appointment>();
 
@@ -74,7 +107,25 @@ public class AppointmentsDataSource {
     cursor.close();
     return appointments;
   }
+  public List<Appointment> getMatchingAppointments(String recipient) {
+	    List<Appointment> appointments = new ArrayList<Appointment>();
+	    //query for recipient column
+	    Cursor cursor = database.query(AppointmentSQLHelper.TABLE_APPOINTMENTS,
+	        allColumns, null, null, null, null, null);
 
+	    cursor.moveToFirst();
+	    while (!cursor.isAfterLast()) {
+		    	Appointment appointment = cursorToAppointment(cursor);
+		    	appointments.add(appointment);
+		    	cursor.moveToNext();
+	    }
+	    // Make sure to close the cursor
+	    cursor.close();
+	    return appointments;	  
+  }
+  public boolean hasRecipient(String recipient){
+	  return true;
+  }
   private Appointment cursorToAppointment(Cursor cursor) {
     Appointment appointment = new Appointment();
     appointment.setId(cursor.getLong(0));
@@ -89,4 +140,4 @@ public class AppointmentsDataSource {
     }
     return appointment;
   }
-} 
+}  

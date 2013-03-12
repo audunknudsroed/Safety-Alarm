@@ -30,14 +30,13 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 public class NewAppointmentActivity extends FragmentActivity{
-	// Added by sverre---------------
-	String debug = "debug";
+	
 	String chosenAP;
 	TextView chosenWifi;
 	TimePickerDialog timePickerDialog;
-	final static int RQS_1 = 1;
+	//final static int RQS_1 = 1;
+	private int id;
 	//--------------------------------
-	
 	
 	private AppointmentsDataSource datasource;
 	private Appointment newApp;
@@ -47,11 +46,20 @@ public class NewAppointmentActivity extends FragmentActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_appointment);
-	
-		// Register the receiver
-        registerReceiver(alarmReceiver,new IntentFilter("intent_filter"));
-		
+			
 		newApp = new Appointment();
+	
+		// new ------------------
+		datasource = new AppointmentsDataSource(this);
+		datasource.open();
+		datasource.createAppointment(newApp);
+		id=(int) newApp.getId();
+		
+		//------------------
+				
+		// Register the receiver
+        registerReceiver(alarmReceiver,new IntentFilter(Integer.toString(id)));
+		
 		Button changeStateButton = (Button)findViewById(R.id.change_state);
 		changeStateButton.setText("Guardian");
 		dateView = (TextView) findViewById(R.id.dateView);
@@ -60,17 +68,14 @@ public class NewAppointmentActivity extends FragmentActivity{
 		timeView.setText(newApp.getTime());
 		dateView.setText(newApp.getDate());
 		chosenWifi.setText("No access point choosen");
-		
-
-		
 	}
 	
 	private BroadcastReceiver alarmReceiver = new BroadcastReceiver() {
 		
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {
-			Log.i("debug", "onReceive");
-			Toast.makeText(arg0, "Alarm received!", Toast.LENGTH_SHORT).show();
+			Log.i("debug", "Alarm received");
+			//Toast.makeText(arg0, "Alarm received!", Toast.LENGTH_SHORT).show();
 			checkIfSelectedWifiIsInRange(arg0);	
 		}
 	};
@@ -81,8 +86,9 @@ public class NewAppointmentActivity extends FragmentActivity{
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 	        String string = data.getStringExtra("RESULT_STRING");
-	        chosenAP = string;
+	        //chosenAP = string;
 	        chosenWifi.setText(string);
+	        newApp.setSSID(string);
 	        Log.i("debug", ".onActivityResult -> " + chosenAP);  
 	    }	
 	}
@@ -107,7 +113,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 	
 	//*************************** New timer****************************************
 	public void openTimePickerDialog(View v){
-		Log.i("debug", "db2");
+
 		Calendar calendar = Calendar.getInstance();
 		
 		timePickerDialog = new TimePickerDialog(
@@ -119,7 +125,6 @@ public class NewAppointmentActivity extends FragmentActivity{
 		timePickerDialog.setTitle("Set Alarm Time");  
         
 		timePickerDialog.show();
-
 	}
     
     OnTimeSetListener onTimeSetListener = new OnTimeSetListener(){
@@ -151,23 +156,23 @@ public class NewAppointmentActivity extends FragmentActivity{
 //				+ "***\n");
 		
 		
-		Intent intent = new Intent("intent_filter");
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(getBaseContext(), RQS_1, intent, 0);
+		Intent intent = new Intent(Integer.toString(id));	// Set filter to this id
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(getBaseContext(), id, intent, 0);
 		
 		// Schedule the alarm!
-        AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        AlarmManager am = ((AlarmManager)getSystemService(Context.ALARM_SERVICE));
 		
 		// For debugging if we want the thing to start after 1 seconds ----------------------
 		Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.add(Calendar.SECOND, 1);
-        //am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        calendar.add(Calendar.SECOND, 10);
+        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         
         // Else comment the above and uncomment the line below-------------------------
-        am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
+        //am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
 	}
 	
-	//*******************************************************************************************
+	//******************************************************************************************
 	
 	public void setWifi(View v){
 		Log.i("debug", "setWifi");
@@ -176,8 +181,8 @@ public class NewAppointmentActivity extends FragmentActivity{
 		
 	}
 	public void confirmAppointment(View v){
-		newApp.setSSID(String.valueOf(((EditText) findViewById(R.id.home_SSID)).getText()));
 		newApp.setRecipient(String.valueOf(((EditText) findViewById(R.id.recipient)).getText()));
+		
 		/*Open SQL management
 		 * 
 		 * Add object to database
@@ -191,6 +196,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 		Intent intent = new Intent(NewAppointmentActivity.this, MainActivity.class);		
 		startActivity(intent);
 	}
+
 	public void changeState(View v){
 		Button changeStateButton = (Button)findViewById(R.id.change_state);
 		if(newApp.getIsGuardian()){
@@ -201,6 +207,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 			newApp.setIsGuardian(true);
 		}
 	}
+	
 	public Appointment getNewApp() {
 		return newApp;
 	}
@@ -208,6 +215,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 		this.newApp = newApp;
 	}
 	
+
 	public void checkIfSelectedWifiIsInRange(Context context){
 		Log.i("debug", "in checkIfSelectedWifiIsInRange");
 	    
@@ -222,7 +230,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 	    }else{ 
 		   wifiManager.setWifiEnabled(true);
 		   try {
-		    	Thread.sleep(4000);
+		    	Thread.sleep(5000);
 		    } catch (InterruptedException e) {
 		    	// TODO Auto-generated catch block
 		    	e.printStackTrace();
@@ -231,28 +239,30 @@ public class NewAppointmentActivity extends FragmentActivity{
 
 		// Get WiFi status and show in a toast (not helpful for the app)
 		info = wifiManager.getConnectionInfo();
-		//Toast.makeText( context, "name: " + info.getSSID(), Toast.LENGTH_LONG).show();
 		
 		// Compare a list of available wifi access-points to the chosen access-point (chosenAP)
 		List<ScanResult> configs = wifiManager.getScanResults();
 		boolean matchFound = false;
 		for (ScanResult config : configs) {
-			if(config.SSID.equals(chosenAP)){
-				Log.i("debug", "Match found for " + chosenAP);
-				Toast.makeText(context, "Match found for " + chosenAP, Toast.LENGTH_LONG).show();
+			//if(config.SSID.equals(chosenAP)){
+			if(config.SSID.equals(newApp.getSSID())){
+				Log.i("debug", "Match found for " + newApp.getSSID());
+				Toast.makeText(context, "Match found for " + newApp.getSSID(), Toast.LENGTH_LONG).show();
 				matchFound = true;
 				break;
 			}
 		}
 		if (!matchFound){
-			Log.i("debug", "No match found for " + chosenAP);
-			Toast.makeText(context, "No match found for " + chosenAP, Toast.LENGTH_LONG).show();
+			Log.i("debug", "No match found for " + newApp.getSSID());
+			Toast.makeText(context, "No match found for " + newApp.getSSID(), Toast.LENGTH_LONG).show();
 		}
 			
 		// If wifi was off -> turn off wifi
 		if(connected == false){	
 			wifiManager.setWifiEnabled(false);
 		}
+		
+		finish();
 	}
 	
 	

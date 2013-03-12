@@ -39,6 +39,7 @@ public class MainActivity extends ListActivity {
 	public void onClick_new_appointment(View view){
 		 Intent intent = new Intent(this, NewAppointmentActivity.class);
 		 startActivity(intent);
+		 finish();
 	}
 	
 }

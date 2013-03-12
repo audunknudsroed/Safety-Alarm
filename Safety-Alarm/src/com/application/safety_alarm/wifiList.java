@@ -39,7 +39,7 @@ public class wifiList extends ListActivity {
 	    }else{ 
 		   wifi.setWifiEnabled(true);
 		    try {
-		    	Thread.sleep(4000);
+		    	Thread.sleep(6000);
 		    } catch (InterruptedException e) {
 		    	// TODO Auto-generated catch block
 		    	e.printStackTrace();
