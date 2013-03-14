@@ -31,10 +31,8 @@ import android.widget.Toast;
 
 public class NewAppointmentActivity extends FragmentActivity{
 	
-	String chosenAP;
 	TextView chosenWifi;
 	TimePickerDialog timePickerDialog;
-	//final static int RQS_1 = 1;
 	private int id;
 	//--------------------------------
 	
@@ -48,18 +46,16 @@ public class NewAppointmentActivity extends FragmentActivity{
 		setContentView(R.layout.activity_new_appointment);
 			
 		newApp = new Appointment();
-	
-		// new ------------------
 		datasource = new AppointmentsDataSource(this);
 		datasource.open();
 		datasource.createAppointment(newApp);
 		id=(int) newApp.getId();
 		
-		//------------------
-				
+			
 		// Register the receiver
         registerReceiver(alarmReceiver,new IntentFilter(Integer.toString(id)));
 		
+        // Set up buttons etc
 		Button changeStateButton = (Button)findViewById(R.id.change_state);
 		changeStateButton.setText("Guardian");
 		dateView = (TextView) findViewById(R.id.dateView);
@@ -75,7 +71,6 @@ public class NewAppointmentActivity extends FragmentActivity{
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {
 			Log.i("debug", "Alarm received");
-			//Toast.makeText(arg0, "Alarm received!", Toast.LENGTH_SHORT).show();
 			checkIfSelectedWifiIsInRange(arg0);	
 		}
 	};
@@ -86,10 +81,9 @@ public class NewAppointmentActivity extends FragmentActivity{
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 	        String string = data.getStringExtra("RESULT_STRING");
-	        //chosenAP = string;
 	        chosenWifi.setText(string);
 	        newApp.setSSID(string);
-	        Log.i("debug", ".onActivityResult -> " + chosenAP);  
+	        Log.i("debug", ".onActivityResult -> " + newApp.getSSID());  
 	    }	
 	}
 
@@ -102,14 +96,14 @@ public class NewAppointmentActivity extends FragmentActivity{
 	}
 	
 	
-//	public void setTime(View v) {
-//	    DialogFragment newFragment = new TimePickerFragment();
-//	    newFragment.show(getSupportFragmentManager(), "timePicker");
-//	}
-//	public void setDate(View v) {
-//	    DialogFragment newFragment = new DatePickerFragment();
-//	    newFragment.show(getSupportFragmentManager(), "datePicker");
-//	}
+	public void setTime(View v) {
+	    DialogFragment newFragment = new TimePickerFragment();
+	    newFragment.show(getSupportFragmentManager(), "timePicker");
+	}
+	public void setDate(View v) {
+	    DialogFragment newFragment = new DatePickerFragment();
+	    newFragment.show(getSupportFragmentManager(), "datePicker");
+	}
 	
 	//*************************** New timer****************************************
 	public void openTimePickerDialog(View v){
@@ -140,11 +134,16 @@ public class NewAppointmentActivity extends FragmentActivity{
 			calSet.set(Calendar.SECOND, 0);
 			calSet.set(Calendar.MILLISECOND, 0);
 			
+			
 			if(calSet.compareTo(calNow) <= 0){
 				//Today Set time passed, count to tomorrow
 				calSet.add(Calendar.DATE, 1);
 			}
 			
+			
+			Log.i("debug","hour: " + String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+			
+			newApp.setTime(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
 			setAlarm(calSet);
 		}};
 
@@ -182,7 +181,6 @@ public class NewAppointmentActivity extends FragmentActivity{
 	}
 	public void confirmAppointment(View v){
 		newApp.setRecipient(String.valueOf(((EditText) findViewById(R.id.recipient)).getText()));
-		
 		/*Open SQL management
 		 * 
 		 * Add object to database
@@ -190,11 +188,10 @@ public class NewAppointmentActivity extends FragmentActivity{
 		 * Appointment needs tostring function
 		 * 
 		 */
-		 datasource = new AppointmentsDataSource(this);
-		 datasource.open();
-		datasource.createAppointment(newApp);
-		Intent intent = new Intent(NewAppointmentActivity.this, MainActivity.class);		
-		startActivity(intent);
+
+		 datasource.updateAppointment(newApp.getId(), newApp);
+		 Intent intent = new Intent(NewAppointmentActivity.this, MainActivity.class);		
+		 startActivity(intent);
 	}
 
 	public void changeState(View v){
