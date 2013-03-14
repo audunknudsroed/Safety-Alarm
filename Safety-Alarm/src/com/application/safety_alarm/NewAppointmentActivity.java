@@ -11,13 +11,19 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.provider.BaseColumns;
+import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -34,6 +40,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 	TextView chosenWifi;
 	TimePickerDialog timePickerDialog;
 	private int id;
+	Toast mToast;
 	//--------------------------------
 	
 	private AppointmentsDataSource datasource;
@@ -79,14 +86,61 @@ public class NewAppointmentActivity extends FragmentActivity{
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK) {
-	        String string = data.getStringExtra("RESULT_STRING");
-	        chosenWifi.setText(string);
-	        newApp.setSSID(string);
-	        Log.i("debug", ".onActivityResult -> " + newApp.getSSID());  
-	    }	
+		
+		// For the return of chosen wifi
+		if (requestCode == 1){
+			if (resultCode == RESULT_OK) {
+		        String string = data.getStringExtra("RESULT_STRING");
+		        chosenWifi.setText(string);
+		        newApp.setSSID(string);
+		        Log.i("debug", ".onActivityResult -> " + newApp.getSSID());  
+		    }	
+		}
+
+		// On the return of chosen contact
+        if (requestCode == 2){	
+			if (data != null) {
+				Uri contactData = data.getData();
+				Cursor c = null;
+					if (contactData != null) {
+		            c =  getContentResolver().query(contactData, null, null, null, null);
+		            Cursor pCur = null;
+		            try{
+			            if (c.moveToFirst()) {
+			                  
+			                String id = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID));
+			                String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+            
+			                if (Integer.parseInt(c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+			                	try {
+			          	            pCur = getContentResolver().query(Phone.CONTENT_URI,null,Phone.CONTACT_ID +" = " + id, null, null);
+			          	            if(pCur.moveToFirst()){
+			          		            String number = pCur.getString(pCur.getColumnIndex(Phone.NUMBER));
+			          		            Log.i("debug3", "Contact: " + name + " ID: " + id + "num: " + number);
+			          		            newApp.setRecipient(name);	// This should maybe be number!!!
+			          	            }
+			      	            } finally {
+			      	                if (pCur != null) {
+			      	                	pCur.close();
+			      	                }
+			      	            }
+			                }
+			            }
+		            }finally {
+		            	if (c!= null){
+      	                	c.close();		            		
+		            	}
+		            }
+				}
+			}
+        }
 	}
 
+	public void chooseContact(View v){
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType(ContactsContract.Contacts.CONTENT_ITEM_TYPE);
+        startActivityForResult(intent, 2);	
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -180,7 +234,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 		
 	}
 	public void confirmAppointment(View v){
-		newApp.setRecipient(String.valueOf(((EditText) findViewById(R.id.recipient)).getText()));
+		//newApp.setRecipient(String.valueOf(((EditText) findViewById(R.id.recipient)).getText()));
 		/*Open SQL management
 		 * 
 		 * Add object to database

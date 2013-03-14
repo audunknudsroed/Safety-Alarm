@@ -61,7 +61,7 @@ public class Appointment implements Serializable{
 	public String toString(){
 		String temp;
 		if(this.getIsGuardian()){
-			temp=this.getRecipient() +"\nLocation: "+this.getSSID() +"\nBefore: "+this.getDate()+", "+this.getTime(); 
+			temp= "Recipient: " + this.getRecipient() +"\nLocation: "+this.getSSID() +"\nBefore: "+this.getDate()+", "+this.getTime(); 
 		}else{
 			temp="You are expected at "+this.getSSID() +" before "+this.getDate()+", "+this.getTime();
 		}

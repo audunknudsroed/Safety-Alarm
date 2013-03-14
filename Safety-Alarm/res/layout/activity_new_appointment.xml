@@ -81,5 +81,12 @@
         android:text="set time2"
         android:onClick="openTimePickerDialog" />
     
+    <Button
+        android:id="@+id/set_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set contact"
+        android:onClick="chooseContact" />
+    
 
 </LinearLayout>
