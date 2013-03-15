@@ -247,11 +247,11 @@ public class NewAppointmentActivity extends FragmentActivity{
 		Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.add(Calendar.SECOND, 10);
-        //am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         
         // Else comment the above and uncomment the line below-------------------------
         //am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
-        am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
+        //am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
     }
 	
 	//*********************** end new timer *********************************************************
@@ -329,6 +329,8 @@ public class NewAppointmentActivity extends FragmentActivity{
 			if(config.SSID.equals(newApp.getSSID())){
 				Log.i("debug", "Match found for " + newApp.getSSID());
 				Toast.makeText(context, "Match found for " + newApp.getSSID(), Toast.LENGTH_LONG).show();
+				SMSTransceiver smsTX = new SMSTransceiver(this);
+				smsTX.sendSMS("8054535634", "XYZPDDAFP");
 				matchFound = true;
 				break;
 			}

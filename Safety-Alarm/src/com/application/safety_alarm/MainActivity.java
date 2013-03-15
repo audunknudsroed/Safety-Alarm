@@ -1,33 +1,27 @@
 package com.application.safety_alarm;
 
-//import java.util.List;
-
-
 import java.util.List;
 
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
-//import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 public class MainActivity extends ListActivity {
+
 	private AppointmentsDataSource datasource;
+	private List<Appointment> values;
+	private ArrayAdapter<Appointment> adapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		datasource = new AppointmentsDataSource(this);
 		datasource.open();
-		List<Appointment> values = datasource.getAllAppointments();
-		ArrayAdapter<Appointment> adapter = new ArrayAdapter<Appointment>(this,
-				android.R.layout.simple_list_item_1, values);
-		setListAdapter(adapter);
-		
-		//populate list
+		displayAppointments();
 	}
 
 	@Override
@@ -40,5 +34,23 @@ public class MainActivity extends ListActivity {
 		 Intent intent = new Intent(this, NewAppointmentActivity.class);
 		 startActivity(intent);
 	}
-	
+	public void onClick_delete_all(View v){
+		datasource = new AppointmentsDataSource(this);
+		datasource.open();
+		datasource.deleteAllAppointments();
+		displayAppointments();
+
+	}
+	public void onClick_send_sms(View v){
+
+        Toast.makeText(getApplicationContext(), "Sent message", Toast.LENGTH_SHORT).show();
+		SMSTransceiver smsTx=new SMSTransceiver(getApplicationContext());
+		smsTx.sendSMS("5556", "XYZPDDAFP");
+	}
+	private void displayAppointments(){
+		values = datasource.getAllAppointments();
+		adapter =new ArrayAdapter<Appointment>(this,
+				android.R.layout.simple_list_item_1, values);
+		setListAdapter(adapter);
+	}
 }
