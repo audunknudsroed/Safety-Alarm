@@ -1,5 +1,4 @@
 package com.application.safety_alarm;
-
 import java.util.List;
 
 import android.app.ListActivity;
@@ -21,7 +20,7 @@ public class MainActivity extends ListActivity {
 		setContentView(R.layout.activity_main);
 		datasource = new AppointmentsDataSource(this);
 		datasource.open();
-		displayAppointments();
+		//displayAppointments();
 	}
 
 	@Override
@@ -45,7 +44,7 @@ public class MainActivity extends ListActivity {
 
         Toast.makeText(getApplicationContext(), "Sent message", Toast.LENGTH_SHORT).show();
 		SMSTransceiver smsTx=new SMSTransceiver(getApplicationContext());
-		smsTx.sendSMS("5556", "XYZPDDAFP");
+		smsTx.sendSMS("+1 805-453-5634", "XYZPDDAFP");
 	}
 	private void displayAppointments(){
 		values = datasource.getAllAppointments();

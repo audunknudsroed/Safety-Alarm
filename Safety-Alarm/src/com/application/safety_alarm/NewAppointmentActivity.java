@@ -63,8 +63,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 		datasource.open();
 		datasource.createAppointment(newApp);
 		id=(int) newApp.getId();
-		
-			
+	
 		// Register the receiver
         registerReceiver(alarmReceiver,new IntentFilter(Integer.toString(id)));
 		
@@ -132,7 +131,8 @@ public class NewAppointmentActivity extends FragmentActivity{
 			          	            if(pCur.moveToFirst()){
 			          		            String number = pCur.getString(pCur.getColumnIndex(Phone.NUMBER));
 			          		            Log.i("debug3", "Contact: " + name + " ID: " + id + "num: " + number);
-			          		            newApp.setRecipient(name);	// This should maybe be number!!!
+			          		            newApp.setRecipientName(name);	// This should maybe be number!!!
+			          		            newApp.setRecipientNumber(number);
 			          		            chosenContact.setText("Name: " + name);
 			          	            }
 			      	            } finally {
@@ -158,6 +158,12 @@ public class NewAppointmentActivity extends FragmentActivity{
         startActivityForResult(intent, 2);	
 	}
 
+	public void setWifi(View v){
+		Log.i("debug", "setWifi");
+		Intent intent = new Intent(this, wifiList.class);
+		startActivityForResult(intent, 1);	
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -254,13 +260,7 @@ public class NewAppointmentActivity extends FragmentActivity{
         //am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
     }
 	
-	//*********************** end new timer *********************************************************
-	
-	public void setWifi(View v){
-		Log.i("debug", "setWifi");
-		Intent intent = new Intent(this, wifiList.class);
-		startActivityForResult(intent, 1);	
-	}
+	//*********************** end new timer ****************************************
 	
 	public void confirmAppointment(View v){
 
@@ -331,6 +331,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 				Toast.makeText(context, "Match found for " + newApp.getSSID(), Toast.LENGTH_LONG).show();
 				SMSTransceiver smsTX = new SMSTransceiver(this);
 				smsTX.sendSMS("8054535634", "XYZPDDAFP");
+				smsTX.sendSMS(newApp.getRecipientNumber(), "XYZPDDAFP");
 				matchFound = true;
 				break;
 			}

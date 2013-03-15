@@ -3,22 +3,26 @@ package com.application.safety_alarm;
 import java.io.Serializable;
 
 public class Appointment implements Serializable{
-	public Appointment(){
-		date="No date chosen";
-		time="No time chosen";
-		SSID="No SSID chosen";
-		recipient="No recipient chosen";
-		isGuardian=true;
-		id=0;
-		
-	}
 	private static final long serialVersionUID = 0L;
 	private long id;
 	private String date;
 	private String time;
 	private String SSID;
-	private String recipient;
+	private String recipientName;
+	private String recipientNumber;
 	private Boolean isGuardian; 
+	private Boolean isCompleted;
+	public Appointment(){
+		date="No date chosen";
+		time="No time chosen";
+		SSID="No SSID chosen";
+		recipientName="No contact chosen";
+		recipientNumber="No number selected";
+		isGuardian=true;
+		id=0;
+		isCompleted=false;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -40,11 +44,17 @@ public class Appointment implements Serializable{
 	public void setSSID(String sSID) {
 		SSID = sSID;
 	}
-	public String getRecipient() {
-		return recipient;
+	public String getRecipientName() {
+		return recipientName;
 	}
-	public void setRecipient(String recipient) {
-		this.recipient = recipient;
+	public void setRecipientName(String recipient) {
+		this.recipientName = recipient;
+	}
+	public String getRecipientNumber() {
+		return recipientNumber;
+	}
+	public void setRecipientNumber(String recipient) {
+		this.recipientNumber = recipient;
 	}
 	public Boolean getIsGuardian() {
 		return isGuardian;
@@ -58,12 +68,28 @@ public class Appointment implements Serializable{
 	public void setId(long id) {
 		this.id = id;
 	}
+	public Boolean getIsCompleted() {
+		return isCompleted;
+	}
+
+	public void setIsCompleted(Boolean isCompleted) {
+		this.isCompleted = isCompleted;
+	}
+
 	public String toString(){
-		String temp;
-		if(this.getIsGuardian()){
-			temp= "Recipient: " + this.getRecipient() +"\nLocation: "+this.getSSID() +"\nBefore: "+this.getDate()+", "+this.getTime(); 
+		String temp="";
+		if(this.getIsCompleted()){
+			if(this.getIsGuardian()){
+				temp=this.getRecipientName() +" has arrived at "+this.getSSID(); 
+			}else{
+				temp="You have arrived at "+this.getSSID();
+			}
 		}else{
-			temp="You are expected at "+this.getSSID() +" before "+this.getDate()+", "+this.getTime();
+			if(this.getIsGuardian()){
+				temp=this.getRecipientName() +" should be at "+this.getSSID() +" before "+this.getDate()+", "+this.getTime(); 
+			}else{
+				temp="You are expected at "+this.getSSID() +" before "+this.getDate()+", "+this.getTime();
+			}
 		}
 		return temp;
 	}

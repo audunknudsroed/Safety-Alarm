@@ -18,8 +18,10 @@ public class AppointmentsDataSource {
 		  AppointmentSQLHelper.COLUMN_DATE,
 		  AppointmentSQLHelper.COLUMN_TIME,
 		  AppointmentSQLHelper.COLUMN_SSID,
-		  AppointmentSQLHelper.COLUMN_RECIPIENT,
-		  AppointmentSQLHelper.COLUMN_ISGUARDIAN};
+		  AppointmentSQLHelper.COLUMN_RECIPIENTNAME,
+		  AppointmentSQLHelper.COLUMN_RECIPIENTNUMBER,
+		  AppointmentSQLHelper.COLUMN_ISGUARDIAN,
+		  AppointmentSQLHelper.COLUMN_ISCOMPLETED};
   
   public AppointmentsDataSource(Context context) {
     dbHelper = new AppointmentSQLHelper(context);
@@ -38,8 +40,10 @@ public class AppointmentsDataSource {
     values.put(AppointmentSQLHelper.COLUMN_DATE, app.getDate());
     values.put(AppointmentSQLHelper.COLUMN_TIME, app.getTime());
     values.put(AppointmentSQLHelper.COLUMN_SSID, app.getSSID());
-    values.put(AppointmentSQLHelper.COLUMN_RECIPIENT, app.getRecipient());
+    values.put(AppointmentSQLHelper.COLUMN_RECIPIENTNAME, app.getRecipientName());
+    values.put(AppointmentSQLHelper.COLUMN_RECIPIENTNUMBER, app.getRecipientNumber());
     values.put(AppointmentSQLHelper.COLUMN_ISGUARDIAN, app.getIsGuardian());
+    values.put(AppointmentSQLHelper.COLUMN_ISCOMPLETED, app.getIsCompleted());
     long insertId = database.insert(AppointmentSQLHelper.TABLE_APPOINTMENTS, null,
         values);
     Cursor cursor = database.query(AppointmentSQLHelper.TABLE_APPOINTMENTS,
@@ -57,16 +61,11 @@ public class AppointmentsDataSource {
 	    values.put(AppointmentSQLHelper.COLUMN_DATE, app.getDate());
 	    values.put(AppointmentSQLHelper.COLUMN_TIME, app.getTime());
 	    values.put(AppointmentSQLHelper.COLUMN_SSID, app.getSSID());
-	    values.put(AppointmentSQLHelper.COLUMN_RECIPIENT, app.getRecipient());
+	    values.put(AppointmentSQLHelper.COLUMN_RECIPIENTNAME, app.getRecipientName());
+	    values.put(AppointmentSQLHelper.COLUMN_RECIPIENTNUMBER, app.getRecipientNumber());
 	    values.put(AppointmentSQLHelper.COLUMN_ISGUARDIAN, app.getIsGuardian());
+	    values.put(AppointmentSQLHelper.COLUMN_ISCOMPLETED, app.getIsCompleted());
 	    database.update(AppointmentSQLHelper.TABLE_APPOINTMENTS, values, AppointmentSQLHelper.COLUMN_ID + " = " + id, null);
-//	    Cursor cursor = database.query(AppointmentSQLHelper.TABLE_APPOINTMENTS,
-//	        allColumns, AppointmentSQLHelper.COLUMN_ID + " = " + id, null,
-//	        null, null, null);
-//	    cursor.moveToFirst();
-//	    Appointment newAppointment = cursorToAppointment(cursor);
-//	    cursor.close();
-//	    return newAppointment;
 	    return app;
   }
   public void deleteAppointment(Appointment appointment) {
@@ -132,12 +131,18 @@ public class AppointmentsDataSource {
     appointment.setDate(cursor.getString(1));
     appointment.setTime(cursor.getString(2));
     appointment.setSSID(cursor.getString(3));
-    appointment.setRecipient(cursor.getString(4));
-    if(cursor.getLong(5)==0){
+    appointment.setRecipientName(cursor.getString(4));
+    appointment.setRecipientNumber(cursor.getString(5));
+    if(cursor.getLong(6)==0){
     	appointment.setIsGuardian(false);
     }else{
     	appointment.setIsGuardian(true);
     }
+    if(cursor.getLong(7)==0){
+    	appointment.setIsCompleted(false);
+    }else{
+    	appointment.setIsCompleted(true);
+    }
     return appointment;
   }
-}  
+} 
