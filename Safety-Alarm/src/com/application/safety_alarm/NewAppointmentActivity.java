@@ -7,6 +7,8 @@ import java.util.List;
 
 
 import android.app.AlarmManager;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -30,6 +32,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -39,8 +42,10 @@ public class NewAppointmentActivity extends FragmentActivity{
 	
 	TextView chosenWifi;
 	TimePickerDialog timePickerDialog;
+	DatePickerDialog datePickerDialog;
 	private int id;
 	Toast mToast;
+	Calendar calSet;
 	//--------------------------------
 	
 	private AppointmentsDataSource datasource;
@@ -77,8 +82,15 @@ public class NewAppointmentActivity extends FragmentActivity{
 		
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {
-			Log.i("debug", "Alarm received");
-			checkIfSelectedWifiIsInRange(arg0);	
+			
+			if(newApp.getIsGuardian()){
+				Log.i("debug", "Alarm received GUARDIAN");
+				//if no notice from dependent -> start alarm
+			}
+			else{
+				Log.i("debug", "Alarm received DEPENDENT");
+				checkIfSelectedWifiIsInRange(arg0);
+			}
 		}
 	};
 	
@@ -149,14 +161,16 @@ public class NewAppointmentActivity extends FragmentActivity{
 		return true;
 	}
 	
-	
 	public void setTime(View v) {
 	    DialogFragment newFragment = new TimePickerFragment();
 	    newFragment.show(getSupportFragmentManager(), "timePicker");
+//	    Log.i("debug", "setAlarm");
+//	    setAlarm(scal);
+	   
 	}
 	public void setDate(View v) {
-	    DialogFragment newFragment = new DatePickerFragment();
-	    newFragment.show(getSupportFragmentManager(), "datePicker");
+//	    DialogFragment newFragment = new DatePickerFragment();
+//	    newFragment.show(getSupportFragmentManager(), "datePicker");
 	}
 	
 	//*************************** New timer****************************************
@@ -181,7 +195,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
 			Calendar calNow = Calendar.getInstance();
-			Calendar calSet = (Calendar) calNow.clone();
+			calSet = (Calendar) calNow.clone();
 
 			calSet.set(Calendar.HOUR_OF_DAY, hourOfDay);
 			calSet.set(Calendar.MINUTE, minute);
@@ -198,9 +212,37 @@ public class NewAppointmentActivity extends FragmentActivity{
 			Log.i("debug","hour: " + String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
 			
 			newApp.setTime(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
-			setAlarm(calSet);
+			
+			openDatePickerDialog(calSet);
+			//setAlarm(calSet);
 		}};
 
+		public void openDatePickerDialog(Calendar calendar){
+
+			
+			datePickerDialog = new DatePickerDialog(
+					NewAppointmentActivity.this, 
+					onDateSetListener, 
+					calendar.get(Calendar.YEAR), 
+					calendar.get(Calendar.MONTH),
+					calendar.get(Calendar.DAY_OF_MONTH));
+			datePickerDialog.setTitle("Set The Date yo!");  
+	        
+			datePickerDialog.show();
+		}
+		OnDateSetListener onDateSetListener = new OnDateSetListener(){
+
+			@Override
+			public void onDateSet(DatePicker arg0, int year, int month, int day) {
+				// TODO Auto-generated method stub
+				calSet.set(year, month, day);
+				
+				setAlarm(calSet);
+			}
+			
+			
+		};
+		
 	private void setAlarm(Calendar targetCal){
 
 //		textAlarmPrompt.setText(
@@ -219,10 +261,11 @@ public class NewAppointmentActivity extends FragmentActivity{
 		Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.add(Calendar.SECOND, 10);
-        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        //am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         
         // Else comment the above and uncomment the line below-------------------------
         //am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
+        am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
 	}
 	
 	//******************************************************************************************
@@ -268,6 +311,8 @@ public class NewAppointmentActivity extends FragmentActivity{
 	
 
 	public void checkIfSelectedWifiIsInRange(Context context){
+		
+		
 		Log.i("debug", "in checkIfSelectedWifiIsInRange");
 	    
 		WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);

@@ -11,25 +11,6 @@
         android:text="@string/change_state"
         android:onClick="changeState" />
 
-    <Button
-        android:id="@+id/confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/confirm"
-        android:onClick="confirmAppointment" />
-
-    <EditText
-        android:id="@+id/recipient"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/phone_input_hint"
-        android:inputType="phone" />
-
-    <EditText
-        android:id="@+id/home_SSID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/SSID_hint" />
 
     <Button
         android:id="@+id/set_date"
@@ -69,10 +50,7 @@
     <TextView
         android:id="@+id/wifiView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-    />
-    
-
+        android:layout_height="wrap_content"/>
     
     <Button
         android:id="@+id/set_time2"
@@ -87,6 +65,14 @@
         android:layout_height="wrap_content"
         android:text="set contact"
         android:onClick="chooseContact" />
+    
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/confirm"
+        android:onClick="confirmAppointment" />
+    
     
 
 </LinearLayout>
