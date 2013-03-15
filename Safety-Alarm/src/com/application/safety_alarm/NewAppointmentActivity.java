@@ -49,6 +49,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 	}
 	public void confirmAppointment(View v){
 		newApp.setSSID(String.valueOf(((EditText) findViewById(R.id.home_SSID)).getText()));
+		newApp.setRecipientNumber(String.valueOf(((EditText) findViewById(R.id.recipient)).getText()));
 		newApp.setRecipientName(String.valueOf(((EditText) findViewById(R.id.recipient)).getText()));
 		datasource.updateAppointment(newApp.getId(), newApp);
 		Intent intent = new Intent(this, MainActivity.class);		

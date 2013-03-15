@@ -80,13 +80,13 @@ public class Appointment implements Serializable{
 		String temp="";
 		if(this.getIsCompleted()){
 			if(this.getIsGuardian()){
-				temp=this.getRecipientName() +" has arrived at "+this.getSSID(); 
+				temp=this.getRecipientNumber() +" has arrived at "+this.getSSID(); 
 			}else{
 				temp="You have arrived at "+this.getSSID();
 			}
 		}else{
 			if(this.getIsGuardian()){
-				temp=this.getRecipientName() +" should be at "+this.getSSID() +" before "+this.getDate()+", "+this.getTime(); 
+				temp=this.getRecipientNumber() +" should be at "+this.getSSID() +" before "+this.getDate()+", "+this.getTime(); 
 			}else{
 				temp="You are expected at "+this.getSSID() +" before "+this.getDate()+", "+this.getTime();
 			}
