@@ -12,8 +12,10 @@ public class AppointmentSQLHelper extends SQLiteOpenHelper {
   public static final String COLUMN_DATE = "date";
   public static final String COLUMN_TIME = "time";
   public static final String COLUMN_SSID = "ssid";
-  public static final String COLUMN_RECIPIENT = "recipient";
+  public static final String COLUMN_RECIPIENTNAME = "recipient";
+  public static final String COLUMN_RECIPIENTNUMBER = "recipient";
   public static final String COLUMN_ISGUARDIAN = "isguardian";
+  public static final String COLUMN_ISCOMPLETED = "iscompleted";
   
  
   private static final String DATABASE_NAME = "appointments.db";
@@ -27,8 +29,10 @@ public class AppointmentSQLHelper extends SQLiteOpenHelper {
       + COLUMN_DATE + " text not null, "
       + COLUMN_TIME + " text not null, "
       + COLUMN_SSID + " text not null, "
-      + COLUMN_RECIPIENT + " text not null, "
-      + COLUMN_ISGUARDIAN + " integer"
+      + COLUMN_RECIPIENTNAME + " text not null, "
+      + COLUMN_RECIPIENTNUMBER + " text not null, "
+      + COLUMN_ISGUARDIAN + " integer, "
+      + COLUMN_ISCOMPLETED + " integer"
        
       +");";
   

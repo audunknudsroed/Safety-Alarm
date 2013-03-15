@@ -19,7 +19,7 @@ public class SMSReceiver extends BroadcastReceiver
         SmsMessage[] msgs = null;
         String str = "";
         String originAddress="";
-        String sender="15555215554";
+        String sender="+18056376562";
         String msgContent="";
         if (bundle != null)
         {
@@ -30,23 +30,27 @@ public class SMSReceiver extends BroadcastReceiver
                 msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
                 msgContent=msgs[i].getMessageBody().toString();
                 if(msgContent.startsWith(CODEWORD)){
+                	abortBroadcast();
                 	//this is a coded message
                     originAddress=msgs[i].getOriginatingAddress();
-                    if(originAddress.matches(sender)/*look for relevant potential matches*/){
-                    	abortBroadcast();
+                    //originAddress.matches(sender);/*look for relevant potential matches*///{
+                    	
                     	//originating address is a match
                     	//make a table lookup
                     	
                     	//displays the received text for test purpose
-                    	str += "Coded SMS from " + msgs[i].getOriginatingAddress();
+                    	str += "Coded SMS from a registered number: " + msgs[i].getOriginatingAddress();
                         str += ", a friend :";
                         str += msgs[i].getMessageBody().toString();
                         str += "\n";
                         Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
-                    }else{
-                    	//received a CODEWORD message, but not from a relevant source,
-                    	//may be a coincidence or a lost appointment
-                    }
+//                    }else{
+//                    	str += "Coded SMS from a non-number" + msgs[i].getOriginatingAddress();
+//                        str += ", whoever :";
+//                        str += msgs[i].getMessageBody().toString();
+//                        str += "\n";
+//                        Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
+                    //}
                 }else{
                 	//received message was a normal message so broadcast it
                 	//---display the new SMS message---
