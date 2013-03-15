@@ -46,12 +46,12 @@ public class NewAppointmentActivity extends FragmentActivity{
 	private int id;
 	Toast mToast;
 	Calendar calSet;
-	//--------------------------------
 	
 	private AppointmentsDataSource datasource;
 	private Appointment newApp;
 	private TextView dateView;
 	private TextView timeView;
+	private TextView chosenContact;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,9 +73,11 @@ public class NewAppointmentActivity extends FragmentActivity{
 		dateView = (TextView) findViewById(R.id.dateView);
 		timeView = (TextView) findViewById(R.id.timeView);
 		chosenWifi = (TextView)findViewById(R.id.wifiView);
+		chosenContact = (TextView)findViewById(R.id.contactView);
 		timeView.setText(newApp.getTime());
 		dateView.setText(newApp.getDate());
-		chosenWifi.setText("No access point choosen");
+		chosenWifi.setText("No access point chosen");
+		chosenContact.setText("No contact chosen");
 	}
 	
 	private BroadcastReceiver alarmReceiver = new BroadcastReceiver() {
@@ -130,6 +132,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 			          		            String number = pCur.getString(pCur.getColumnIndex(Phone.NUMBER));
 			          		            Log.i("debug3", "Contact: " + name + " ID: " + id + "num: " + number);
 			          		            newApp.setRecipient(name);	// This should maybe be number!!!
+			          		            chosenContact.setText("Name: " + name);
 			          	            }
 			      	            } finally {
 			      	                if (pCur != null) {
@@ -148,7 +151,7 @@ public class NewAppointmentActivity extends FragmentActivity{
         }
 	}
 
-	public void chooseContact(View v){
+	public void choseContact(View v){
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType(ContactsContract.Contacts.CONTENT_ITEM_TYPE);
         startActivityForResult(intent, 2);	
@@ -161,18 +164,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 		return true;
 	}
 	
-	public void setTime(View v) {
-	    DialogFragment newFragment = new TimePickerFragment();
-	    newFragment.show(getSupportFragmentManager(), "timePicker");
-//	    Log.i("debug", "setAlarm");
-//	    setAlarm(scal);
-	   
-	}
-	public void setDate(View v) {
-//	    DialogFragment newFragment = new DatePickerFragment();
-//	    newFragment.show(getSupportFragmentManager(), "datePicker");
-	}
-	
+
 	//*************************** New timer****************************************
 	public void openTimePickerDialog(View v){
 
@@ -212,9 +204,8 @@ public class NewAppointmentActivity extends FragmentActivity{
 			Log.i("debug","hour: " + String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
 			
 			newApp.setTime(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
-			
+			timeView.setText("Time: " + String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
 			openDatePickerDialog(calSet);
-			//setAlarm(calSet);
 		}};
 
 		public void openDatePickerDialog(Calendar calendar){
@@ -230,27 +221,21 @@ public class NewAppointmentActivity extends FragmentActivity{
 	        
 			datePickerDialog.show();
 		}
+		
 		OnDateSetListener onDateSetListener = new OnDateSetListener(){
 
 			@Override
 			public void onDateSet(DatePicker arg0, int year, int month, int day) {
 				// TODO Auto-generated method stub
 				calSet.set(year, month, day);
-				
+				newApp.setDate(String.valueOf(month) + "." + String.valueOf(day)+ "."+ String.valueOf(year));
+				dateView.setText("Date: " + String.valueOf(month+1) + "." + String.valueOf(day)+ "."+ String.valueOf(year));
 				setAlarm(calSet);
 			}
-			
-			
 		};
 		
 	private void setAlarm(Calendar targetCal){
 
-//		textAlarmPrompt.setText(
-//				"\n\n***\n"
-//				+ "Alarm is set@ " + targetCal.getTime() + "\n"
-//				+ "***\n");
-		
-		
 		Intent intent = new Intent(Integer.toString(id));	// Set filter to this id
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(getBaseContext(), id, intent, 0);
 		
@@ -266,7 +251,7 @@ public class NewAppointmentActivity extends FragmentActivity{
         // Else comment the above and uncomment the line below-------------------------
         //am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
         am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
-	}
+    }
 	
 	//******************************************************************************************
 	
@@ -277,7 +262,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 		
 	}
 	public void confirmAppointment(View v){
-		//newApp.setRecipient(String.valueOf(((EditText) findViewById(R.id.recipient)).getText()));
+
 		/*Open SQL management
 		 * 
 		 * Add object to database

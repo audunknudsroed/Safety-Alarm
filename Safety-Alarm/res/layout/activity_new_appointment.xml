@@ -2,7 +2,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-    tools:context=".NewAppointmentActivity" >
+    
 
     <Button
         android:id="@+id/change_state"
@@ -12,32 +12,7 @@
         android:onClick="changeState" />
 
 
-    <Button
-        android:id="@+id/set_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/setDate"
-        android:onClick="setDate" /> 
-     							
 
-    <TextView
-        android:id="@+id/dateView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-    />
-
-    <Button
-        android:id="@+id/set_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/setTime"
-        android:onClick="setTime" />
-    
-    <TextView
-        android:id="@+id/timeView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-    />
 
 
 
@@ -47,24 +22,40 @@
         android:layout_height="wrap_content"
         android:text="set wifi"
         android:onClick="setWifi" />
+    
     <TextView
         android:id="@+id/wifiView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     
     <Button
-        android:id="@+id/set_time2"
+        android:id="@+id/set_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="set time2"
+        android:text="set time and date"
         android:onClick="openTimePickerDialog" />
+    
+    <TextView
+        android:id="@+id/timeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    
+    <TextView
+        android:id="@+id/dateView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     
     <Button
         android:id="@+id/set_contact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="set contact"
-        android:onClick="chooseContact" />
+        android:onClick="choseContact" />
+    
+    <TextView
+        android:id="@+id/contactView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     
     <Button
         android:id="@+id/confirm"
