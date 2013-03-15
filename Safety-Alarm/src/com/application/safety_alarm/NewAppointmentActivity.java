@@ -52,6 +52,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 	private TextView dateView;
 	private TextView timeView;
 	private TextView chosenContact;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -253,14 +254,14 @@ public class NewAppointmentActivity extends FragmentActivity{
         am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
     }
 	
-	//******************************************************************************************
+	//*********************** end new timer *********************************************************
 	
 	public void setWifi(View v){
 		Log.i("debug", "setWifi");
 		Intent intent = new Intent(this, wifiList.class);
-		startActivityForResult(intent, 1);
-		
+		startActivityForResult(intent, 1);	
 	}
+	
 	public void confirmAppointment(View v){
 
 		/*Open SQL management
@@ -296,7 +297,6 @@ public class NewAppointmentActivity extends FragmentActivity{
 	
 
 	public void checkIfSelectedWifiIsInRange(Context context){
-		
 		
 		Log.i("debug", "in checkIfSelectedWifiIsInRange");
 	    
@@ -345,6 +345,5 @@ public class NewAppointmentActivity extends FragmentActivity{
 		
 		finish();
 	}
-	
 	
 }
