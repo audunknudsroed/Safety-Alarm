@@ -12,8 +12,8 @@ public class AppointmentSQLHelper extends SQLiteOpenHelper {
   public static final String COLUMN_DATE = "date";
   public static final String COLUMN_TIME = "time";
   public static final String COLUMN_SSID = "ssid";
-  public static final String COLUMN_RECIPIENTNAME = "recipient";
-  public static final String COLUMN_RECIPIENTNUMBER = "recipient";
+  public static final String COLUMN_RECIPIENTNAME = "recipientname";
+  public static final String COLUMN_RECIPIENTNUMBER = "recipientnumber";
   public static final String COLUMN_ISGUARDIAN = "isguardian";
   public static final String COLUMN_ISCOMPLETED = "iscompleted";
   

@@ -20,7 +20,7 @@ public class MainActivity extends ListActivity {
 		setContentView(R.layout.activity_main);
 		datasource = new AppointmentsDataSource(this);
 		datasource.open();
-		//displayAppointments();
+		displayAppointments();
 	}
 
 	@Override

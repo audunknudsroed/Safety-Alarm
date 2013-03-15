@@ -331,7 +331,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 				Toast.makeText(context, "Match found for " + newApp.getSSID(), Toast.LENGTH_LONG).show();
 				SMSTransceiver smsTX = new SMSTransceiver(this);
 				smsTX.sendSMS("8054535634", "XYZPDDAFP");
-				smsTX.sendSMS(newApp.getRecipientNumber(), "XYZPDDAFP");
+				//smsTX.sendSMS(newApp.getRecipientNumber(), "XYZPDDAFP");
 				matchFound = true;
 				break;
 			}
