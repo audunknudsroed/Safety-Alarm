@@ -182,7 +182,11 @@ public class NewAppointmentActivity extends FragmentActivity{
 
 			calSet.set(Calendar.HOUR_OF_DAY, hourOfDay);
 			calSet.set(Calendar.MINUTE, minute);
-			calSet.set(Calendar.SECOND, 0);
+			if(newApp.getIsGuardian()){
+				calSet.set(Calendar.SECOND, 20);
+			}else{
+				calSet.set(Calendar.SECOND, 0);
+			}
 			calSet.set(Calendar.MILLISECOND, 0);
 			
 			
@@ -238,10 +242,10 @@ public class NewAppointmentActivity extends FragmentActivity{
 		Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.add(Calendar.SECOND, 5);
-        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        //am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         
         // Else comment the above and uncomment the line below-------------------------
-        //am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
+        am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
 
     }
 	
@@ -260,7 +264,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 		 datasource.updateAppointment(newApp.getId(), newApp);
 		 Intent intent = new Intent(NewAppointmentActivity.this, MainActivity.class);		
 		 startActivity(intent);
-		 finish();
+		 //finish();
 	}
 
 	public void changeState(View v){
@@ -282,57 +286,56 @@ public class NewAppointmentActivity extends FragmentActivity{
 	}
 	
 
-	public void checkIfSelectedWifiIsInRange(Context context){
-		
-		Log.i("debug", "in checkIfSelectedWifiIsInRange");
-	    
-		WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-	   
-		// If wifi is not turned on, we must turn it on 
-		boolean connected = false;
-	    WifiInfo info = wifiManager.getConnectionInfo();
-	    
-	    if(info.getBSSID() != null){
-		    connected = true;
-	    }else{ 
-		   wifiManager.setWifiEnabled(true);
-		   try {
-		    	Thread.sleep(5000);
-		    } catch (InterruptedException e) {
-		    	// TODO Auto-generated catch block
-		    	e.printStackTrace();
-		    }
-	    }
-
-		// Get WiFi status and show in a toast (not helpful for the app)
-		info = wifiManager.getConnectionInfo();
-		
-		// Compare a list of available wifi access-points to the chosen access-point (chosenAP)
-		List<ScanResult> configs = wifiManager.getScanResults();
-		boolean matchFound = false;
-		for (ScanResult config : configs) {
-			//if(config.SSID.equals(chosenAP)){
-			if(config.SSID.equals(newApp.getSSID())){
-				Log.i("debug", "Match found for " + newApp.getSSID());
-				Toast.makeText(context, "Match found for " + newApp.getSSID(), Toast.LENGTH_LONG).show();
-				SMSTransceiver smsTX = new SMSTransceiver(this);
-				smsTX.sendSMS("8054535634", "XYZPDDAFP");
-				//smsTX.sendSMS(newApp.getRecipientNumber(), "XYZPDDAFP");
-				matchFound = true;
-				break;
-			}
-		}
-		if (!matchFound){
-			Log.i("debug", "No match found for " + newApp.getSSID());
-			Toast.makeText(context, "No match found for " + newApp.getSSID(), Toast.LENGTH_LONG).show();
-		}
-			
-		// If wifi was off -> turn off wifi
-		if(connected == false){	
-			wifiManager.setWifiEnabled(false);
-		}
-		
-		finish();
-	}
-	
+//	public void checkIfSelectedWifiIsInRange(Context context){
+//		
+//		Log.i("debug", "in checkIfSelectedWifiIsInRange");
+//	    
+//		WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+//	   
+//		// If wifi is not turned on, we must turn it on 
+//		boolean connected = false;
+//	    WifiInfo info = wifiManager.getConnectionInfo();
+//	    
+//	    if(info.getBSSID() != null){
+//		    connected = true;
+//	    }else{ 
+//		   wifiManager.setWifiEnabled(true);
+//		   try {
+//		    	Thread.sleep(5000);
+//		    } catch (InterruptedException e) {
+//		    	// TODO Auto-generated catch block
+//		    	e.printStackTrace();
+//		    }
+//	    }
+//
+//		// Get WiFi status and show in a toast (not helpful for the app)
+//		info = wifiManager.getConnectionInfo();
+//		
+//		// Compare a list of available wifi access-points to the chosen access-point (chosenAP)
+//		List<ScanResult> configs = wifiManager.getScanResults();
+//		boolean matchFound = false;
+//		for (ScanResult config : configs) {
+//			//if(config.SSID.equals(chosenAP)){
+//			if(config.SSID.equals(newApp.getSSID())){
+//				Log.i("debug", "Match found for " + newApp.getSSID());
+//				Toast.makeText(context, "Match found for " + newApp.getSSID(), Toast.LENGTH_LONG).show();
+//				SMSTransceiver smsTX = new SMSTransceiver(this);
+//				smsTX.sendSMS("8054535634", "XYZPDDAFP");
+//				//smsTX.sendSMS(newApp.getRecipientNumber(), "XYZPDDAFP");
+//				matchFound = true;
+//				break;
+//			}
+//		}
+//		if (!matchFound){
+//			Log.i("debug", "No match found for " + newApp.getSSID());
+//			Toast.makeText(context, "No match found for " + newApp.getSSID(), Toast.LENGTH_LONG).show();
+//		}
+//			
+//		// If wifi was off -> turn off wifi
+//		if(connected == false){	
+//			wifiManager.setWifiEnabled(false);
+//		}
+//		
+//		finish();
+//	}
 }
