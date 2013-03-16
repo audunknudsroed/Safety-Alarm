@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 public class SMSReceiver extends BroadcastReceiver
 {
@@ -40,19 +40,19 @@ public class SMSReceiver extends BroadcastReceiver
            		 	int appointmentsCompleted=0;
            		 	appointmentsCompleted=datasource.completeAppointmentsbyRecipientNumber(originAddress);
            		 	if(appointmentsCompleted>0){
-                    	str += "Coded SMS from a registered number: " + msgs[i].getOriginatingAddress();
-                        str += ", which completed ";
-                        str += Integer.toString(appointmentsCompleted);
-                        str += " appointments\n";
-                        Toast.makeText(context, str, Toast.LENGTH_LONG).show();	
-           		 	}else{
-                    	str += "Coded SMS from an unexpected number: " + msgs[i].getOriginatingAddress();
-                    	str +="alt: "+originAddress+" ";
-                        str += ". Found "+ Integer.toString(datasource.getNoOfRows(msgs[i].getOriginatingAddress()));
-                        str += " matches. ";
-                        str += msgs[i].getMessageBody().toString();
-                        str += "\n";
-                        Toast.makeText(context, str, Toast.LENGTH_LONG).show();
+//                    	str += "Coded SMS from a registered number: " + msgs[i].getOriginatingAddress();
+//                        str += ", which completed ";
+//                        str += Integer.toString(appointmentsCompleted);
+//                        str += " appointments\n";
+//                        Toast.makeText(context, str, Toast.LENGTH_LONG).show();	
+//           		 	}else{
+//                    	str += "Coded SMS from an unexpected number: " + msgs[i].getOriginatingAddress();
+//                    	str +="alt: "+originAddress+" ";
+//                        str += ". Found "+ Integer.toString(datasource.getNoOfRows(msgs[i].getOriginatingAddress()));
+//                        str += " matches. ";
+//                        str += msgs[i].getMessageBody().toString();
+//                        str += "\n";
+//                        Toast.makeText(context, str, Toast.LENGTH_LONG).show();
            		 	}
                 }else{
                 	//received message was a normal message so broadcast it
