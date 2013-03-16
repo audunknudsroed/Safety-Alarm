@@ -2,9 +2,11 @@ package com.application.safety_alarm;
 
 import java.util.List;
 
+import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -38,6 +40,8 @@ public class MyReceiver extends BroadcastReceiver {
 				//alarm goes off
 				Log.i("receiver", "the dependent is Not at home");	
 				Toast.makeText(arg0, "the dependent did NOT come home", Toast.LENGTH_LONG).show();
+				MediaPlayer alarm = MediaPlayer.create(arg0, R.raw.alarm);
+				alarm.start();
 			}
 			
 		}
