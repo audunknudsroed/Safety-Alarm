@@ -43,7 +43,6 @@ public class NewAppointmentActivity extends FragmentActivity{
 	TextView chosenWifi;
 	TimePickerDialog timePickerDialog;
 	DatePickerDialog datePickerDialog;
-	private int id;
 	Toast mToast;
 	Calendar calSet;
 	
@@ -62,10 +61,10 @@ public class NewAppointmentActivity extends FragmentActivity{
 		datasource = new AppointmentsDataSource(this);
 		datasource.open();
 		datasource.createAppointment(newApp);
-		id=(int) newApp.getId();
+
 	
 		// Register the receiver
-        registerReceiver(alarmReceiver,new IntentFilter(Integer.toString(id)));
+        //registerReceiver(alarmReceiver,new IntentFilter(Integer.toString(id)));
 		
         // Set up buttons etc
 		Button changeStateButton = (Button)findViewById(R.id.change_state);
@@ -80,21 +79,6 @@ public class NewAppointmentActivity extends FragmentActivity{
 		chosenContact.setText("No contact chosen");
 	}
 	
-	private BroadcastReceiver alarmReceiver = new BroadcastReceiver() {
-		
-		@Override
-		public void onReceive(Context arg0, Intent arg1) {
-			
-			if(newApp.getIsGuardian()){
-				Log.i("debug", "Alarm received GUARDIAN");
-				//if no notice from dependent -> start alarm
-			}
-			else{
-				Log.i("debug", "Alarm received DEPENDENT");
-				checkIfSelectedWifiIsInRange(arg0);
-			}
-		}
-	};
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -242,22 +226,23 @@ public class NewAppointmentActivity extends FragmentActivity{
 		};
 		
 	private void setAlarm(Calendar targetCal){
+		Intent intent = new Intent(NewAppointmentActivity.this, MyReceiver.class);	// Set filter to this id
+		Log.i("Receiver", Integer.toString((int) newApp.getId()));
+		intent.putExtra("id", newApp.getId());
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(NewAppointmentActivity.this, (int)newApp.getId(), intent, 1073741824);
 
-		Intent intent = new Intent(Integer.toString(id));	// Set filter to this id
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(getBaseContext(), id, intent, 0);
-		
 		// Schedule the alarm!
-        AlarmManager am = ((AlarmManager)getSystemService(Context.ALARM_SERVICE));
-		
+        AlarmManager am = ((AlarmManager)getSystemService(ALARM_SERVICE));
+
 		// For debugging if we want the thing to start after 1 seconds ----------------------
 		Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.add(Calendar.SECOND, 10);
+        calendar.add(Calendar.SECOND, 5);
         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         
         // Else comment the above and uncomment the line below-------------------------
         //am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
-        //am.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
+
     }
 	
 	//*********************** end new timer ****************************************
@@ -275,6 +260,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 		 datasource.updateAppointment(newApp.getId(), newApp);
 		 Intent intent = new Intent(NewAppointmentActivity.this, MainActivity.class);		
 		 startActivity(intent);
+		 finish();
 	}
 
 	public void changeState(View v){
