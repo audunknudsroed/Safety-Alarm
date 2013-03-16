@@ -191,9 +191,22 @@ public class NewAppointmentActivity extends FragmentActivity{
 			
 			
 			Log.i("debug","hour: " + String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
-			
-			newApp.setTime(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
-			timeView.setText("Time: " + String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+			String hour=String.valueOf(hourOfDay);
+			String minutes=String.valueOf(minute);
+			String singlezero="0";
+			String doublezero="00";
+			if(hour.length()==0){
+				hour=doublezero.concat(hour);
+			}else if(hour.length()==1){
+				hour=singlezero.concat(hour);
+			}
+			if(minutes.length()==0){
+				minutes=doublezero.concat(minutes);
+			}else if(minutes.length()==1){
+				minutes=singlezero.concat(minutes);
+			}
+			newApp.setTime(hour + ":" + minutes);
+			timeView.setText("Time: " + hour + ":" + minutes);
 			openDatePickerDialog(calSet);
 		}};
 
@@ -206,7 +219,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 					calendar.get(Calendar.YEAR), 
 					calendar.get(Calendar.MONTH),
 					calendar.get(Calendar.DAY_OF_MONTH));
-			datePickerDialog.setTitle("Set The Date yo!");  
+			datePickerDialog.setTitle("Set The Date");  
 	        
 			datePickerDialog.show();
 		}
