@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class wifiList extends ListActivity {
     
@@ -37,7 +38,9 @@ public class wifiList extends ListActivity {
 	    if(info.getBSSID() != null){
 		    connected = true;
 	    }else{ 
+	   
 		   wifi.setWifiEnabled(true);
+		   
 		    try {
 		    	Thread.sleep(6000);
 		    } catch (InterruptedException e) {

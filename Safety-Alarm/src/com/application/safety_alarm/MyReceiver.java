@@ -42,8 +42,7 @@ public class MyReceiver extends BroadcastReceiver {
 				Toast.makeText(arg0, "the dependent did NOT come home", Toast.LENGTH_LONG).show();
 				MediaPlayer alarm = MediaPlayer.create(arg0, R.raw.alarm);
 				alarm.start();
-			}
-			
+			}	
 		}
 		else{
 			

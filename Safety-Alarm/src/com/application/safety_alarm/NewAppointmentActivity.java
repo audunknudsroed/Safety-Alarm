@@ -63,10 +63,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 		datasource.createAppointment(newApp);
 
 	
-		// Register the receiver
-        //registerReceiver(alarmReceiver,new IntentFilter(Integer.toString(id)));
-		
-        // Set up buttons etc
+		// Set up buttons etc
 		Button changeStateButton = (Button)findViewById(R.id.change_state);
 		changeStateButton.setText("Guardian");
 		dateView = (TextView) findViewById(R.id.dateView);
@@ -144,8 +141,14 @@ public class NewAppointmentActivity extends FragmentActivity{
 
 	public void setWifi(View v){
 		Log.i("debug", "setWifi");
-		Intent intent = new Intent(this, wifiList.class);
-		startActivityForResult(intent, 1);	
+		if(newApp.getIsGuardian()){
+			Toast.makeText(this, "No need to set wifi-connection when you are guardian", Toast.LENGTH_SHORT).show();
+			
+		}
+		else{
+			Intent intent = new Intent(this, wifiList.class);
+			startActivityForResult(intent, 1);	
+		}
 	}
 	
 	@Override
@@ -264,7 +267,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 		 datasource.updateAppointment(newApp.getId(), newApp);
 		 Intent intent = new Intent(NewAppointmentActivity.this, MainActivity.class);		
 		 startActivity(intent);
-		 //finish();
+		 finish();
 	}
 
 	public void changeState(View v){
@@ -285,57 +288,4 @@ public class NewAppointmentActivity extends FragmentActivity{
 		this.newApp = newApp;
 	}
 	
-
-//	public void checkIfSelectedWifiIsInRange(Context context){
-//		
-//		Log.i("debug", "in checkIfSelectedWifiIsInRange");
-//	    
-//		WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-//	   
-//		// If wifi is not turned on, we must turn it on 
-//		boolean connected = false;
-//	    WifiInfo info = wifiManager.getConnectionInfo();
-//	    
-//	    if(info.getBSSID() != null){
-//		    connected = true;
-//	    }else{ 
-//		   wifiManager.setWifiEnabled(true);
-//		   try {
-//		    	Thread.sleep(5000);
-//		    } catch (InterruptedException e) {
-//		    	// TODO Auto-generated catch block
-//		    	e.printStackTrace();
-//		    }
-//	    }
-//
-//		// Get WiFi status and show in a toast (not helpful for the app)
-//		info = wifiManager.getConnectionInfo();
-//		
-//		// Compare a list of available wifi access-points to the chosen access-point (chosenAP)
-//		List<ScanResult> configs = wifiManager.getScanResults();
-//		boolean matchFound = false;
-//		for (ScanResult config : configs) {
-//			//if(config.SSID.equals(chosenAP)){
-//			if(config.SSID.equals(newApp.getSSID())){
-//				Log.i("debug", "Match found for " + newApp.getSSID());
-//				Toast.makeText(context, "Match found for " + newApp.getSSID(), Toast.LENGTH_LONG).show();
-//				SMSTransceiver smsTX = new SMSTransceiver(this);
-//				smsTX.sendSMS("8054535634", "XYZPDDAFP");
-//				//smsTX.sendSMS(newApp.getRecipientNumber(), "XYZPDDAFP");
-//				matchFound = true;
-//				break;
-//			}
-//		}
-//		if (!matchFound){
-//			Log.i("debug", "No match found for " + newApp.getSSID());
-//			Toast.makeText(context, "No match found for " + newApp.getSSID(), Toast.LENGTH_LONG).show();
-//		}
-//			
-//		// If wifi was off -> turn off wifi
-//		if(connected == false){	
-//			wifiManager.setWifiEnabled(false);
-//		}
-//		
-//		finish();
-//	}
 }
