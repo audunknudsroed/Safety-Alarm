@@ -90,6 +90,16 @@ public class AppointmentsDataSource {
 	    // Make sure to close the cursor
 	    cursor.close();
   }
+  
+  public Appointment getAppointmentById(long id)
+  {
+	  Appointment tmp;
+	  Cursor cursor = database.query(AppointmentSQLHelper.TABLE_APPOINTMENTS,
+		        allColumns, AppointmentSQLHelper.COLUMN_ID + " = " + id, null, null, null, null);
+	  tmp=cursorToAppointment(cursor);
+	  cursor.close();
+	  return tmp;
+  }
   public List<Appointment> getAllAppointments() {
     List<Appointment> appointments = new ArrayList<Appointment>();
 
@@ -149,4 +159,5 @@ public class AppointmentsDataSource {
 		cursor.close();
 		return length;
 	}
+
 }
