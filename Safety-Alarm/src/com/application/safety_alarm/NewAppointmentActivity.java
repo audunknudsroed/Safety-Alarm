@@ -3,8 +3,6 @@ package com.application.safety_alarm;
 
 
 import java.util.Calendar;
-import java.util.List;
-
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -12,28 +10,18 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
-import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -63,7 +51,10 @@ public class NewAppointmentActivity extends FragmentActivity{
 		datasource.createAppointment(newApp);
 
 	
-		// Set up buttons etc
+		// Register the receiver
+        //registerReceiver(alarmReceiver,new IntentFilter(Integer.toString(id)));
+		
+        // Set up buttons etc
 		Button changeStateButton = (Button)findViewById(R.id.change_state);
 		changeStateButton.setText("Guardian");
 		dateView = (TextView) findViewById(R.id.dateView);
@@ -141,14 +132,8 @@ public class NewAppointmentActivity extends FragmentActivity{
 
 	public void setWifi(View v){
 		Log.i("debug", "setWifi");
-		if(newApp.getIsGuardian()){
-			Toast.makeText(this, "No need to set wifi-connection when you are guardian", Toast.LENGTH_SHORT).show();
-			
-		}
-		else{
-			Intent intent = new Intent(this, wifiList.class);
-			startActivityForResult(intent, 1);	
-		}
+		Intent intent = new Intent(this, wifiList.class);
+		startActivityForResult(intent, 1);	
 	}
 	
 	@Override
@@ -267,7 +252,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 		 datasource.updateAppointment(newApp.getId(), newApp);
 		 Intent intent = new Intent(NewAppointmentActivity.this, MainActivity.class);		
 		 startActivity(intent);
-		 finish();
+		 //finish();
 	}
 
 	public void changeState(View v){

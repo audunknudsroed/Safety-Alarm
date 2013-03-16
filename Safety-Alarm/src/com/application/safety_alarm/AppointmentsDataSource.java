@@ -10,7 +10,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 public class AppointmentsDataSource {
-
+	MainActivity yourMain = null;
   // Database fields
   private SQLiteDatabase database;
   private AppointmentSQLHelper dbHelper;
@@ -22,7 +22,9 @@ public class AppointmentsDataSource {
 		  AppointmentSQLHelper.COLUMN_RECIPIENTNUMBER,
 		  AppointmentSQLHelper.COLUMN_ISGUARDIAN,
 		  AppointmentSQLHelper.COLUMN_ISCOMPLETED};
-  
+  public void setMainActivityHandler(MainActivity main){
+	  yourMain = main;
+  }
   public AppointmentsDataSource(Context context) {
     dbHelper = new AppointmentSQLHelper(context);
   }
@@ -122,6 +124,7 @@ public class AppointmentsDataSource {
 	  ContentValues values = new ContentValues();
 	  values.put(AppointmentSQLHelper.COLUMN_ISCOMPLETED, 1);
 	  database.update(AppointmentSQLHelper.TABLE_APPOINTMENTS, values, AppointmentSQLHelper.COLUMN_ID + " = " + id, null);
+	  yourMain.displayAppointments();
   }
   public int completeAppointmentsbyRecipientNumber(String number){
 	  ContentValues values = new ContentValues();
@@ -160,5 +163,4 @@ public class AppointmentsDataSource {
 		cursor.close();
 		return length;
 	}
-
 }

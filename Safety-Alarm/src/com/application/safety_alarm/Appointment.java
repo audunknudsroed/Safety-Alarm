@@ -57,6 +57,10 @@ public class Appointment implements Serializable{
 		String temp=recipient;
 		temp=temp.replace("-", "");
 		temp=temp.replace(" ", "");
+		String usPrefix="+1";
+		if(!(temp.startsWith(usPrefix))){
+			temp=usPrefix.concat(temp);
+		}
 		this.recipientNumber = temp;
 	}
 	public Boolean getIsGuardian() {

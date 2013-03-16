@@ -14,10 +14,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class MyReceiver extends BroadcastReceiver {
-
+	private String CODEWORD="";
 	@Override
 	public void onReceive(Context arg0, Intent intent) {
-
+		
 		long id = intent.getExtras().getLong("id");
 		Log.i("receiver", "Alarm received with id:  " + Long.toString(id));
 		
@@ -84,8 +84,8 @@ public class MyReceiver extends BroadcastReceiver {
 				Log.i("debug", "Match found for " + ssid);
 				Toast.makeText(context, "Match found for " + ssid, Toast.LENGTH_LONG).show();
 				SMSTransceiver smsTX = new SMSTransceiver(context.getApplicationContext());
-				//smsTX.sendSMS("8054535634", "XYZPDDAFP");
-				smsTX.sendSMS(number, "XYZPDDAFP");
+				CODEWORD = context.getResources().getString(R.string.MSG_CODEWORD);
+				smsTX.sendSMS(number, CODEWORD);
 				matchFound = true;
 				break;
 			}

@@ -19,7 +19,6 @@ public class SMSReceiver extends BroadcastReceiver
         SmsMessage[] msgs = null;
         String str = "";
         String originAddress="";
-        //String sender="+18056376562";
         String msgContent="";
         if (bundle != null)
         {
@@ -36,27 +35,11 @@ public class SMSReceiver extends BroadcastReceiver
                     AppointmentsDataSource datasource;
                     datasource = new AppointmentsDataSource(context);
            		 	datasource.open();
-           		 
-           		 	int appointmentsCompleted=0;
-           		 	appointmentsCompleted=datasource.completeAppointmentsbyRecipientNumber(originAddress);
-           		 	if(appointmentsCompleted>0){
-//                    	str += "Coded SMS from a registered number: " + msgs[i].getOriginatingAddress();
-//                        str += ", which completed ";
-//                        str += Integer.toString(appointmentsCompleted);
-//                        str += " appointments\n";
-//                        Toast.makeText(context, str, Toast.LENGTH_LONG).show();	
-//           		 	}else{
-//                    	str += "Coded SMS from an unexpected number: " + msgs[i].getOriginatingAddress();
-//                    	str +="alt: "+originAddress+" ";
-//                        str += ". Found "+ Integer.toString(datasource.getNoOfRows(msgs[i].getOriginatingAddress()));
-//                        str += " matches. ";
-//                        str += msgs[i].getMessageBody().toString();
-//                        str += "\n";
-//                        Toast.makeText(context, str, Toast.LENGTH_LONG).show();
-           		 	}
+           		 	datasource.completeAppointmentsbyRecipientNumber(originAddress);
+           		 	
+           		 	
                 }else{
                 	//received message was a normal message so broadcast it
-                	//---display the new SMS message---
                 	Intent broadcastIntent = new Intent();
                     broadcastIntent.setAction("SMS_RECEIVED_ACTION");
                     broadcastIntent.putExtra("sms",str);
