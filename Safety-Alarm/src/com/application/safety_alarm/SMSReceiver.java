@@ -55,8 +55,8 @@ public class SMSReceiver extends BroadcastReceiver
                         Toast.makeText(context, str, Toast.LENGTH_LONG).show();
                         
            		 	}
-           		 	 //Appointment app=datasource.getAppointmentById(3);
-	                 //Toast.makeText(context, app.toString(), Toast.LENGTH_LONG).show();
+           		 	 Appointment app=datasource.getAppointmentById(3);
+	                 Toast.makeText(context, app.toString(), Toast.LENGTH_LONG).show();
                 }else{
                 	//received message was a normal message so broadcast it
                 	//---display the new SMS message---
