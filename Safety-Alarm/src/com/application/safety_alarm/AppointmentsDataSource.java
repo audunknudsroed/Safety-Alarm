@@ -106,22 +106,18 @@ public class AppointmentsDataSource {
     cursor.close();
     return appointments;
   }
-//  public long[] getMatchingAppointments(String number) {
-//	    List<Appointment> appointments = new ArrayList<Appointment>();
-//	    //query for recipient column
-//	    Cursor cursor = database.query(AppointmentSQLHelper.TABLE_APPOINTMENTS,
-//	        allColumns,  AppointmentSQLHelper.COLUMN_RECIPIENTNUMBER + " = " + number,null, null, null, null);
-//
-//	    cursor.moveToFirst();
-//	    while (!cursor.isAfterLast()) {
-//		    	Appointment appointment = cursorToAppointment(cursor);
-//		    	appointments.add(appointment);
-//		    	cursor.moveToNext();
-//	    }
-//	    // Make sure to close the cursor
-//	    cursor.close();
-//	    return 5l;	  
-//  }
+
+  public void completeAppointmentbyId(long id){
+	  ContentValues values = new ContentValues();
+	  values.put(AppointmentSQLHelper.COLUMN_ISCOMPLETED, 1);
+	  database.update(AppointmentSQLHelper.TABLE_APPOINTMENTS, values, AppointmentSQLHelper.COLUMN_ID + " = " + id, null);
+  }
+  public int completeAppointmentsbyRecipientNumber(String number){
+	  ContentValues values = new ContentValues();
+	  values.put(AppointmentSQLHelper.COLUMN_ISCOMPLETED, 1);
+	  int rowsAffected=database.update(AppointmentSQLHelper.TABLE_APPOINTMENTS, values, AppointmentSQLHelper.COLUMN_RECIPIENTNUMBER + "='" + number+"'", null);
+	  return rowsAffected;
+  }
 //  private 
   public boolean hasRecipient(String recipient){
 	  return true;
@@ -146,4 +142,11 @@ public class AppointmentsDataSource {
     }
     return appointment;
   }
-} 
+	public int getNoOfRows(String number){
+		Cursor cursor = database.query(AppointmentSQLHelper.TABLE_APPOINTMENTS,
+   		        allColumns, AppointmentSQLHelper.COLUMN_RECIPIENTNUMBER + " = " + number, null, null, null, null);
+		int length=cursor.getCount();
+		cursor.close();
+		return length;
+	}
+}

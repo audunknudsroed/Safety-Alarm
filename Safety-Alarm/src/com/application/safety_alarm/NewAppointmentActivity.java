@@ -235,7 +235,7 @@ public class NewAppointmentActivity extends FragmentActivity{
 			public void onDateSet(DatePicker arg0, int year, int month, int day) {
 				// TODO Auto-generated method stub
 				calSet.set(year, month, day);
-				newApp.setDate(String.valueOf(month) + "." + String.valueOf(day)+ "."+ String.valueOf(year));
+				newApp.setDate(String.valueOf(month+1) + "." + String.valueOf(day)+ "."+ String.valueOf(year));
 				dateView.setText("Date: " + String.valueOf(month+1) + "." + String.valueOf(day)+ "."+ String.valueOf(year));
 				setAlarm(calSet);
 			}

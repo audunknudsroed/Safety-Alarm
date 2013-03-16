@@ -19,7 +19,7 @@ public class SMSReceiver extends BroadcastReceiver
         SmsMessage[] msgs = null;
         String str = "";
         String originAddress="";
-        String sender="+18056376562";
+        //String sender="+18056376562";
         String msgContent="";
         if (bundle != null)
         {
@@ -33,24 +33,27 @@ public class SMSReceiver extends BroadcastReceiver
                 	abortBroadcast();
                 	//this is a coded message
                     originAddress=msgs[i].getOriginatingAddress();
-                    //originAddress.matches(sender);/*look for relevant potential matches*///{
-                    	
-                    	//originating address is a match
-                    	//make a table lookup
-                    	
-                    	//displays the received text for test purpose
+                    AppointmentsDataSource datasource;
+                    datasource = new AppointmentsDataSource(context);
+           		 	datasource.open();
+           		 
+           		 	int appointmentsCompleted=0;
+           		 	appointmentsCompleted=datasource.completeAppointmentsbyRecipientNumber(originAddress);
+           		 	if(appointmentsCompleted>0){
                     	str += "Coded SMS from a registered number: " + msgs[i].getOriginatingAddress();
-                        str += ", a friend :";
+                        str += ", which completed ";
+                        str += Integer.toString(appointmentsCompleted);
+                        str += " appointments\n";
+                        Toast.makeText(context, str, Toast.LENGTH_LONG).show();	
+           		 	}else{
+                    	str += "Coded SMS from an unexpected number: " + msgs[i].getOriginatingAddress();
+                    	str +="alt: "+originAddress+" ";
+                        str += ". Found "+ Integer.toString(datasource.getNoOfRows(msgs[i].getOriginatingAddress()));
+                        str += " matches. ";
                         str += msgs[i].getMessageBody().toString();
                         str += "\n";
-                        Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
-//                    }else{
-//                    	str += "Coded SMS from a non-number" + msgs[i].getOriginatingAddress();
-//                        str += ", whoever :";
-//                        str += msgs[i].getMessageBody().toString();
-//                        str += "\n";
-//                        Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
-                    //}
+                        Toast.makeText(context, str, Toast.LENGTH_LONG).show();
+           		 	}
                 }else{
                 	//received message was a normal message so broadcast it
                 	//---display the new SMS message---
