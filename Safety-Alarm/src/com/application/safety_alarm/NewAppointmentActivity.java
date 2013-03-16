@@ -132,8 +132,14 @@ public class NewAppointmentActivity extends FragmentActivity{
 
 	public void setWifi(View v){
 		Log.i("debug", "setWifi");
-		Intent intent = new Intent(this, wifiList.class);
-		startActivityForResult(intent, 1);	
+		if(newApp.getIsGuardian()){
+			Toast.makeText(this, "No need to set wifi-connection when you are guardian", Toast.LENGTH_SHORT).show();
+
+		}
+		else{
+			Intent intent = new Intent(this, wifiList.class);
+			startActivityForResult(intent, 1);	
+		}
 	}
 	
 	@Override
