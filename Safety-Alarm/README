@@ -9,6 +9,7 @@ Functionality of the application:
 
 The MainActivity shows all the appointments currently saved in the SQL-database. The user can select and delete each appointments individually. The initial interface also contains a “New appointment” button, which will take the the user to the “NewAppointmentActivity”.
 
+
 In NewAppointmentActivity the user is able to set all the parameters for a new appointment (Guardian/Dependent, Time, Contact, WiFi, Confirm):
 - "Guardian/Dependent": Select the state of the user.
 - "Set Time and Date": The time specified by the user is stored in a Calendar object. Then the AlarmManager is set to broadcast on the given time. The “id” of the appointment is sent with the broadcast intent. 
@@ -16,8 +17,9 @@ In NewAppointmentActivity the user is able to set all the parameters for a new a
 - "Set WiFi": Get a listview of all the phone's stored wifi-networks. The SSID of the selected wifi-network is saved. To get the list of stored wifi-networks the wifi on the phone must be turned on. If wifi is initially off, the application will turn it on during the operation.
 - "Confirm": When the user hits the confirm-button, all the parameters for the given appointment gets stored in the database.
 
+
+
 When the receiver "myReceiver" is waken up by a broadcast from an appointment, it will check if the appointment is registered as Guardian or Dependent.
 
-If Dependent: Search for all available wifi networks and compare them with the specific network  chosen by the user. If a match is found, an SMS will be sent to the Guardian with an specific code. If no match is found, no SMS is sent.
-
-If Guardian: If an SMS with the right code from the dependent is received – do nothing. If no SMS is received – start the alarm.
+- If Dependent: Search for all available wifi networks and compare them with the specific network  chosen by the user. If a match is found, an SMS will be sent to the Guardian with an specific code. If no match is found, no SMS is sent.
+- If Guardian: If an SMS with the right code from the dependent is received – do nothing. If no SMS is received – start the alarm.
