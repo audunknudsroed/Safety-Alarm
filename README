@@ -7,7 +7,7 @@ The app does not rely on 3rd party packages or libraries.
 
 Functionality of the application:
 
-The MainActivity shows all the appointments currently saved in the SQL-database. The user can select and delete each appointments individually. The initial interface also contains a “New appointment” button, which will take the the user to the “NewAppointmentActivity”.
+The MainActivity shows all the appointments currently saved in the SQL-database. The user can select and delete each appointment individually. The initial interface also contains a “New appointment” button, which will take the the user to the “NewAppointmentActivity”.
 
 
 In NewAppointmentActivity the user is able to set all the parameters for a new appointment (Guardian/Dependent, Time, Contact, WiFi, Confirm):
