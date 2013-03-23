@@ -1,8 +1,8 @@
 *** The Safety Alarm ***
 
-Important Note: the app send actual SMS-messages, i.e one message from the dependent to the guardian for each appointment. 
+Important Note: the app sends actual SMS-messages, i.e one message from the dependent to the guardian for each appointment. 
 
-The app does not replies on 3rd party packages or libraries.
+The app does not rely on 3rd party packages or libraries.
 
 
 Functionality of the application:
